@@ -10,8 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 @Controller
 public class PostController {
@@ -32,6 +32,21 @@ public class PostController {
         Post post = service.getPost(id);
         model.addAttribute("title", post.getTitle());
         model.addAttribute("contents", post.getContents());
+        model.addAttribute("regDate", post.getReadableRegDate());
         return "post";
+    }
+
+    @PostMapping(value = "/posts/write")
+    public String writePost(String title, String contents) {
+        logger.info("writePost - title={}, contents = {}", contents);
+        service.writePost(title, contents);
+        return "redirect:/index";
+    }
+
+    @PostMapping(value = "/posts/{id}/remove")
+    public String removePost(@PathVariable int id) {
+        logger.info("removePost - id={}", id);
+        service.removePost(id);
+        return "redirect:/index";
     }
 }

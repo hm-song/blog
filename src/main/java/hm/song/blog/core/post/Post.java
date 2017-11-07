@@ -1,8 +1,10 @@
 package hm.song.blog.core.post;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -20,6 +22,9 @@ public class Post {
 
     @Column(name = "CONTENTS", length = 20000, nullable = false)
     private String contents;
+
+    @Column(name = "IS_DISPLAY", nullable = false)
+    private boolean isDisplay;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "REG_DATE", nullable = false)
@@ -53,6 +58,14 @@ public class Post {
         this.contents = contents;
     }
 
+    public boolean isDisplay() {
+        return isDisplay;
+    }
+
+    public void setDisplay(boolean display) {
+        isDisplay = display;
+    }
+
     public Date getRegDate() {
         return regDate;
     }
@@ -67,5 +80,10 @@ public class Post {
 
     public void setModDate(Date modDate) {
         this.modDate = modDate;
+    }
+
+    @JsonGetter("regDate")
+    public String getReadableRegDate() {
+        return new SimpleDateFormat("MMMMM dd, yyyy").format(regDate);
     }
 }
