@@ -1,16 +1,13 @@
-package hm.song.blog.core.post;
+package hm.song.blog.core.post.domain;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
-import lombok.Data;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@Entity
-@Table(name = "POST")
-@Data
-public class Post {
+@MappedSuperclass
+public class BasePost {
 
     @Id
     @Column(name = "ID")
@@ -19,9 +16,6 @@ public class Post {
 
     @Column(name = "TITLE", length = 255, nullable = false)
     private String title;
-
-    @Column(name = "CONTENTS", length = 20000, nullable = false)
-    private String contents;
 
     @Column(name = "IS_DISPLAY", nullable = false)
     private boolean isDisplay;
@@ -33,6 +27,22 @@ public class Post {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "MOD_DATE", nullable = false)
     private Date modDate;
+
+    public BasePost(String title, boolean isDisplay, Date regDate, Date modDate) {
+        this.title = title;
+        this.isDisplay = isDisplay;
+        this.regDate = regDate;
+        this.modDate = modDate;
+    }
+
+    public BasePost() {
+    }
+
+    @JsonGetter("regDate")
+    public String getReadableRegDate() {
+        return new SimpleDateFormat("MMMMM dd, yyyy").format(regDate);
+    }
+
 
     public int getId() {
         return id;
@@ -48,14 +58,6 @@ public class Post {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getContents() {
-        return contents;
-    }
-
-    public void setContents(String contents) {
-        this.contents = contents;
     }
 
     public boolean isDisplay() {
@@ -80,10 +82,5 @@ public class Post {
 
     public void setModDate(Date modDate) {
         this.modDate = modDate;
-    }
-
-    @JsonGetter("regDate")
-    public String getReadableRegDate() {
-        return new SimpleDateFormat("MMMMM dd, yyyy").format(regDate);
     }
 }

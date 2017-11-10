@@ -1,17 +1,21 @@
 package hm.song.blog.web;
 
-import hm.song.blog.core.post.Post;
+import hm.song.blog.core.post.domain.Post;
+import hm.song.blog.core.post.domain.PostSummary;
+import hm.song.blog.core.post.PostDto;
 import hm.song.blog.core.post.PostService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.security.Principal;
 
 @Controller
 public class PostController {
@@ -23,8 +27,9 @@ public class PostController {
 
     @GetMapping(value = "/posts")
     @ResponseBody
-    public Page<Post> getPosts(int page, int size) {
-        return service.getPosts(page, size);
+    public PageImpl<PostDto> getPosts(int page, int size, Principal principal) {
+        boolean authorized = principal != null;
+        return service.getPosts(page, size, authorized);
     }
 
     @GetMapping(value = "/posts/{id}")
@@ -44,9 +49,9 @@ public class PostController {
     }
 
     @PostMapping(value = "/posts/{id}/remove")
-    public String removePost(@PathVariable int id) {
+    @ResponseBody
+    public void removePost(@PathVariable int id) {
         logger.info("removePost - id={}", id);
         service.removePost(id);
-        return "redirect:/index";
     }
 }
