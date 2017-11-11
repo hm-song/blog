@@ -1,7 +1,6 @@
 package hm.song.blog.core.post;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
-import hm.song.blog.core.post.domain.Post;
 import hm.song.blog.core.post.domain.PostSummary;
 import lombok.Data;
 
@@ -15,22 +14,11 @@ public class PostDto {
 
     private String title;
 
-    private String contents;
-
     private boolean isDisplay;
 
     private Date regDate;
 
     private Date modDate;
-
-    public PostDto(Post post) {
-        id = post.getId();
-        title = post.getTitle();
-        contents = post.getContents();
-        isDisplay = post.isDisplay();
-        regDate = post.getRegDate();
-        modDate = post.getModDate();
-    }
 
     public PostDto() {
     }
@@ -40,12 +28,13 @@ public class PostDto {
         dto.setId(post.getId());
         dto.setTitle(post.getTitle());
         dto.setRegDate(post.getRegDate());
+        dto.setDisplay(post.isDisplay());
         return dto;
     }
 
     @JsonGetter("regDate")
     public String getReadableRegDate() {
-        return new SimpleDateFormat("MMMMM dd, yyyy").format(regDate);
+        return new SimpleDateFormat("yyyy-MM-dd").format(regDate);
     }
 
     public int getId() {
@@ -62,14 +51,6 @@ public class PostDto {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getContents() {
-        return contents;
-    }
-
-    public void setContents(String contents) {
-        this.contents = contents;
     }
 
     public boolean isDisplay() {

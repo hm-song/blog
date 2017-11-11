@@ -28,6 +28,7 @@ public class PostController {
     @GetMapping(value = "/posts")
     @ResponseBody
     public PageImpl<PostDto> getPosts(int page, int size, Principal principal) {
+        logger.info("getPost - page={}, size={}", page, size);
         boolean authorized = principal != null;
         return service.getPosts(page, size, authorized);
     }

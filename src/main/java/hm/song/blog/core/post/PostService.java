@@ -33,15 +33,16 @@ public class PostService {
     public PageImpl<PostDto> getPosts(int page, int size, boolean includeHide) {
         PageRequest pageRequest = new PageRequest(page, size);
         List<PostSummary> posts;
-        int totalSize;
+        long totalSize;
+
         if (includeHide) {
             Page<PostSummary> queryResult = postSummaryRepo.findByOrderByRegDateDesc(pageRequest);
             posts = queryResult.getContent();
-            totalSize = queryResult.getSize();
+            totalSize = queryResult.getTotalElements();
         } else {
             Page<PostSummary> queryResult = postSummaryRepo.findByIsDisplayOrderByRegDateDesc(true, pageRequest);
             posts = queryResult.getContent();
-            totalSize = queryResult.getSize();
+            totalSize = queryResult.getTotalElements();
         }
         List<PostDto> postSummary = posts.stream()
                                         .map(PostDto::summryOf)

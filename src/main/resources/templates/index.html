@@ -4,7 +4,6 @@
       layout:decorator="common/layout">
     <head>
         <title>Posts</title>
-        <link href="page-style.css" rel="stylesheet" />
     </head>
 
     <body>
@@ -22,7 +21,8 @@
 
             <!-- Pager -->
             <div class="clearfix">
-                <a class="btn btn-secondary float-right" href="#">Older Posts &rarr;</a>
+                <a id="newerPosts" class="btn btn-secondary float-left" onclick="loadPost(page-1)">&larr; Newer Posts</a>
+                <a id="olderPosts" class="btn btn-secondary float-right" onclick="loadPost(page+1)">Older Posts &rarr;</a>
             </div>
         </div>
 
@@ -40,24 +40,77 @@
                         </h3>
                         -->
                     </a>
-                    <p class="post-meta">Posted by <a href="#">Start Bootstrap</a> {{regDate}}</p>
+                    <p class="post-meta">
+                        Posted by Confident Developer [{{regDate}}]
+
+                        {{#compare display false operator="=="}}
+                        <span class="fa-pull-right">HIDED</span>
+                        {{/compare}}
+                    </p>
                 </div>
                 <hr>
                 {{/each}}
             </script>
 
             <script>
-                $(document).ready(function() {
+                var page = 0;
+                var pageSize = 10;
+
+                var loadPost = function(reqPage) {
                     $.ajax({
-                        url: '/posts?page=0&size=10',
+                        url: '/posts?page=' + reqPage + '&size=' + pageSize,
                         success: function(response) {
                             console.log(response);
-
                             var template = Handlebars.compile($('#templatePostItem').html());
                             var compiled = template(response);
                             $('#postsHolder').html(compiled);
+
+                            paginate(response);
                         }
                     });
+                    page = reqPage;
+                }
+
+                var paginate = function(response) {
+                    if (response.first) {
+                        $('#newerPosts').hide();
+                    } else {
+                        $('#newerPosts').show();
+                    }
+
+                    if (response.last) {
+                        $('#olderPosts').hide();
+                    } else {
+                        $('#olderPosts').show();
+                    }
+                }
+
+                $(document).ready(function() {
+                    Handlebars.registerHelper('compare', function(lvalue, rvalue, options) {
+                        if (arguments.length < 3)
+                            throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
+                        var operator = options.hash.operator || "==";
+                        var operators = {
+                            '==':       function(l,r) { return l == r; },
+                            '===':      function(l,r) { return l === r; },
+                            '!=':       function(l,r) { return l != r; },
+                            '<':        function(l,r) { return l < r; },
+                            '>':        function(l,r) { return l > r; },
+                            '<=':       function(l,r) { return l <= r; },
+                            '>=':       function(l,r) { return l >= r; },
+                            'typeof':   function(l,r) { return typeof l == r; }
+                        }
+                        if (!operators[operator])
+                            throw new Error("Handlerbars Helper 'compare' doesn't know the operator "+operator);
+                        var result = operators[operator](lvalue,rvalue);
+                        if( result ) {
+                            return options.fn(this);
+                        } else {
+                            return options.inverse(this);
+                        }
+                    });
+
+                    loadPost(page, pageSize);
                 });
             </script>
         </section>
