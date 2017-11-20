@@ -15,20 +15,21 @@
         </div>
 
         <div class="col-lg-8 col-md-10 mx-auto" layout:fragment="contents">
-            <form role="form" action="/posts/write" method="post">
+            <form role="form" th:action="@{'/posts/' + ${id} + '/modify'}" method="post">
 
                 <div class="form-group">
                     <label for="title">
                         Title
                     </label>
-                    <input type="text" class="form-control" id="title" name="title">
+                    <input type="text" class="form-control" id="title" name="title" th:attr="value=${title}">
                 </div>
 
                 <div class="form-group">
                     <label for="contents">
                         Contents
                     </label>
-                    <textarea id="contents" class="form-control" name="contents" rows="15">
+                    <textarea id="contents" class="form-control" name="contents" rows="15" th:text=${contents}>
+
                     </textarea>
                 </div>
 

@@ -36,6 +36,7 @@ public class PostController {
     @GetMapping(value = "/posts/{id}")
     public String showPostDetail(@PathVariable int id, Model model) {
         Post post = service.getPost(id);
+        model.addAttribute("id", post.getId());
         model.addAttribute("title", post.getTitle());
         model.addAttribute("contents", post.getContents());
         model.addAttribute("regDate", post.getReadableRegDate());
@@ -44,9 +45,24 @@ public class PostController {
 
     @PostMapping(value = "/posts/write")
     public String writePost(String title, String contents) {
-        logger.info("writePost - title={}, contents = {}", contents);
+        logger.info("writePost - title={}, contents = {}", title, contents);
         service.writePost(title, contents);
         return "redirect:/index";
+    }
+
+    @GetMapping(value = "/posts/{id}/modify/view")
+    public String getModifyView(@PathVariable int id, Model model) {
+        Post post = service.getPost(id);
+        model.addAttribute("id", post.getId());
+        model.addAttribute("title", post.getTitle());
+        model.addAttribute("contents", post.getContents());
+        model.addAttribute("regDate", post.getReadableRegDate());
+        return "modify";
+    }
+
+    @PostMapping(value = "/posts/{id}/modify")
+    public void updatePost(int id, String title, String contents) {
+        service.updatePost(id, title, contents, true);
     }
 
     @PostMapping(value = "/posts/{id}/remove")
@@ -54,5 +70,12 @@ public class PostController {
     public void removePost(@PathVariable int id) {
         logger.info("removePost - id={}", id);
         service.removePost(id);
+    }
+
+    @GetMapping(value = "/comments/write")
+    @ResponseBody
+    public String writeComment(Principal principal) {
+        logger.info("{}", principal);
+        return "Authentication is done";
     }
 }

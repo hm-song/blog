@@ -1,5 +1,6 @@
 package hm.song.blog.core.post;
 
+import com.google.common.base.Strings;
 import hm.song.blog.core.post.domain.Post;
 import hm.song.blog.core.post.domain.PostSummary;
 import hm.song.blog.core.post.repo.PostRepository;
@@ -17,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
+
 
 @Service
 public class PostService {
@@ -54,11 +56,29 @@ public class PostService {
     @Transactional
     public void writePost(String title, String contents) {
         Post post = new Post();
-        post.setTitle(title);
-        post.setContents(contents);
+        post.setTitle(title.trim());
+        post.setContents(contents.trim());
         post.setRegDate(new Date());
         post.setModDate(new Date());
         postRepo.saveAndFlush(post);
+    }
+
+    @Transactional
+    public void updatePost(int id, String title, String contents, boolean isDisplay) {
+        Post post = postRepo.findOne(id);
+        if (post == null) {
+            throw new RuntimeException("Post not found with id = " + id);
+        }
+
+        if (!Strings.isNullOrEmpty(title)) {
+            post.setTitle(title.trim());
+        }
+
+        if (!Strings.isNullOrEmpty(contents)) {
+            post.setContents(contents.trim());
+        }
+
+        post.setDisplay(isDisplay);
     }
 
     @Transactional

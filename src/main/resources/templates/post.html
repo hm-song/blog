@@ -15,14 +15,34 @@
                 <h2 class="subheading"></h2>
                 <span class="meta" th:inline="text">
                     Posted by <a href="#">TheUphill</a>. [[${regDate}]]
+
+                    <a th:href="@{'/posts/' + ${id} + '/modify/view'}" class="fa-pull-right" sec:authorize="hasRole('ADMIN')">[Modify]</a>
+                    <a href="#" class="fa-pull-right" sec:authorize="hasRole('ADMIN')" th:onclick="'remove(' + ${id} + ');'">[Remove]</a>
                 </span>
-                <a sec:authorize="hasRole('ADMIN')">[Modify]</a>
-                <a href="/posts/9999/remove" sec:authorize="hasRole('ADMIN')">[Remove]</a>
             </div>
         </div>
 
         <div class="col-lg-8 col-md-10 mx-auto" layout:fragment="contents" th:utext=${contents}>
 
         </div>
+
+        <section layout:fragment="custom-script">
+            <script>
+                var remove = function(id) {
+                    if (confirm('Do you want to hide this post?')) {
+                        $.ajax({
+                            url: '/posts/' + id + '/remove',
+                            type: 'post',
+                            success: function() {
+                                alert('SUCCESS');
+                            },
+                            error : function(response) {
+                                alert(response.responseText);
+                            }
+                        });
+                    }
+                }
+            </script>
+        </section>
     </body>
 </html>
