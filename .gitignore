@@ -24,3 +24,10 @@ nbdist/
 .nb-gradle/
 .mvn/wrapper
 src/main/resources/classified.properties
+
+### node ###
+node_modules
+
+yarn-error\.log
+
+yarn\.lock

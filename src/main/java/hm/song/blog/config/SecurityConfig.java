@@ -21,7 +21,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/index", "/posts/**").permitAll()
+                .antMatchers("/api/**").permitAll()
+                .antMatchers("/index", "/posts/**", "/index2").permitAll()
                 .antMatchers("/css/**", "/image/**", "/js/**", "/libs/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -39,8 +40,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public UserDetailsService userDetailService() {
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
         manager.createUser(
-                User.withUsername(env.getProperty("security.username"))
-                        .password(env.getProperty("security.password"))
+                User.withUsername("admin")
+                        .password("admin")
                         .roles("ADMIN").build());
         return manager;
     }

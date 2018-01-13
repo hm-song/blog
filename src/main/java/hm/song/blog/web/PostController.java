@@ -10,14 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
 @Controller
+@RequestMapping("/api")
 public class PostController {
 
     private static final Logger logger = LoggerFactory.getLogger(PostController.class);
@@ -27,10 +25,10 @@ public class PostController {
 
     @GetMapping(value = "/posts")
     @ResponseBody
-    public PageImpl<PostDto> getPosts(int page, int size, Principal principal) {
-        logger.info("getPost - page={}, size={}", page, size);
+    public PageImpl<PostDto> getPosts(int page, Principal principal) {
+        logger.info("getPost - page={}, size={}", page, 20);
         boolean authorized = principal != null;
-        return service.getPosts(page, size, authorized);
+        return service.getPosts(page, 20, authorized);
     }
 
     @GetMapping(value = "/posts/{id}")
