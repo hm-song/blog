@@ -1,26 +1,33 @@
 import React, {Component} from 'react';
-import {Menu, Header, PostList, Footer} from './components/index';
+import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import { Menu, Header, Footer, WritePost } from './components/index';
 import PostListContainer from './containers/PostListContainer';
+
+
 
 class App extends Component {
     render() {
         return (
-            <div>
-                <Menu/>
-                <Header/>
-
-                <div className="container">
-                    <div className="row">
-                        <div className="col-lg-8 col-md-10 mx-auto">
-                            <PostListContainer/>
+            <Router>
+                <div>
+                    <Menu/>
+                    <Header/>
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-lg-8 col-md-10 mx-auto">
+                                <Switch>
+                                    <Route exact path="/" component={PostListContainer}/>
+                                    <Route path="/write" component={WritePost}/>
+                                </Switch>
+                            </div>
                         </div>
                     </div>
+
+                    <hr/>
+
+                    <Footer/>
                 </div>
-
-                <hr/>
-
-                <Footer/>
-            </div>
+            </Router>
         );
     }
 }

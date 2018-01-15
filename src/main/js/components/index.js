@@ -3,11 +3,13 @@ import PostList from './PostList';
 import Post from './Post';
 import Footer from './Footer';
 import Menu from './Menu';
+import WritePost from './WritePost';
 
 export {
     Menu,
     Header,
     PostList,
     Post,
-    Footer
+    Footer,
+    WritePost
 };

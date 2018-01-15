@@ -4,11 +4,13 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
-import blogApp from './reducers';
+
+
+import reducers from './reducers/reducers';
 import App from './App';
 
 let store = createStore(
-    blogApp,
+    reducers,
     applyMiddleware(thunkMiddleware)
 );
 
@@ -18,5 +20,3 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('root')
 );
-
-
