@@ -1,30 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Post from './Post';
+import PostPreview from './PostPreview';
 
-const PostList = ({posts, onClickPost}) => {
+const PostList = ({ posts, handlePreview}) => {
     return (
-        <div>
-            {posts.map((item) => {
-                return <Post id={item.id}
-                             title={item.title}
-                             regDate={item.regDate}
-                             key={item.id}
-                             onClick={() => onClickPost}/>
-            })}
+        <div className="container">
+            <div className="row">
+                <div className="col-lg-8 col-md-10 mx-auto">
+                    <div>
+                        {posts.map((item) => {
+                            return <PostPreview id={item.id}
+                                                title={item.title}
+                                                regDate={item.regDate}
+                                                key={item.id}
+                                                handlePreview={handlePreview}/>
+                        })}
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
 
-PostList.propTypes = {
-    // postList: PropTypes.arrayOf(
-    //     PropTypes.shape({
-    //         id: PropTypes.number,
-    //         title: PropTypes.string,
-    //         regDate: PropTypes.string
-    //     })
-    // ),
-    // onClick: PropTypes.func.isRequired
-};
+PostList.propTypes = {};
 
 export default PostList;

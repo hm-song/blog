@@ -2,21 +2,6 @@ import axios from 'axios';
 
 import * as types from './ActionTypes'
 
-export const getPost = (postId) => {
-    return {
-        type: types.GET_POST,
-        watchingPostId: postId
-    }
-}
-
-export const requestPosts = (page) => {
-    return {
-        type: types.REQUEST_POSTS,
-        isFetching: true,
-        page: page
-    }
-}
-
 export const receivePosts = (posts) => {
     return {
         type: types.RECEIVE_POSTS,
@@ -27,11 +12,34 @@ export const receivePosts = (posts) => {
 
 export const fetchPosts = (page) => {
     return dispatch => {
-        dispatch(requestPosts());
-        return axios.get('/api/posts?page=' + page)
+        return axios.get('/api/public/posts?page=' + page)
             .then(response => {
-                console.log(response);
                 dispatch(receivePosts(response.data.content))
             });
+    }
+}
+
+export const requestPostDetail = () => {
+    return {
+        type: types.REQUEST_POST_DETAIL,
+        isFetching: true
+    }
+}
+
+export const receivePostDetail = (postDetail) => {
+    return {
+        type: types.RECEIVE_POST_DETAIL,
+        isFetching: false,
+        postDetail: postDetail
+    }
+}
+
+export const fetchPostDetail = (watchingPostId) => {
+    return dispatch => {
+        return axios.get('/api/public/posts/' + watchingPostId)
+            .then(response => {
+                console.log(response);
+                dispatch(receivePostDetail(response.data));
+            })
     }
 }

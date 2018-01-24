@@ -1,29 +1,33 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-const Post = ({id, title, regDate}) => (
-    <div className="post-preview">
-        <a href="post.html">
-            <h2 className="post-title">
-                {title}
-            </h2>
-            {/*<h3 className="post-subtitle">*/}
-                {/*Sub Title*/}
-            {/*</h3>*/}
-        </a>
-        <p className="post-meta">
-            Posted by
-            <a href="#"> Confident Developer </a>
-            on {regDate}
-        </p>
-        <hr />
-    </div>
-)
+const Post = ({ title, body }) => {
+    return (
+        <div>
+            <header className="masthead" style={{backgroundImage: 'url("/image/banner.jpg")'}}>
+                <div className="overlay" />
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-8 col-md-10 mx-auto">
+                            <div className="site-heading">
+                                <h1>{title}</h1>
+                                <span className="subheading">Sub Title!!</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
 
-Post.propTypes = {
-    id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    regDate: PropTypes.string.isRequired
+            <article>
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-8 col-md-10 mx-auto">
+                            {body}
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    );
 };
 
 export default Post;

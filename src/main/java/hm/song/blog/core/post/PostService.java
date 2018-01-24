@@ -1,6 +1,7 @@
 package hm.song.blog.core.post;
 
 import com.google.common.base.Strings;
+import hm.song.blog.core.exception.PostIsNotPublishedException;
 import hm.song.blog.core.post.domain.Post;
 import hm.song.blog.core.post.domain.PostSummary;
 import hm.song.blog.core.post.repo.PostRepository;
@@ -25,6 +26,8 @@ public class PostService {
 
     private static final Logger logger = LoggerFactory.getLogger(PostService.class);
 
+    private static int PAGE_SIZE = 20;
+
     @Autowired
     private PostSummaryRepository postSummaryRepo;
 
@@ -32,26 +35,29 @@ public class PostService {
     private PostRepository postRepo;
 
     @Transactional(readOnly = true)
-    public PageImpl<PostDto> getPosts(int page, int size, boolean includeHide) {
-        PageRequest pageRequest = new PageRequest(page, size);
-        List<PostSummary> posts;
-        long totalSize;
+    public PageImpl<PostDto> getPosts(int page) {
+        PageRequest pageRequest = new PageRequest(page, PAGE_SIZE);
 
-        if (includeHide) {
-            Page<PostSummary> queryResult = postSummaryRepo.findByOrderByRegDateDesc(pageRequest);
-            posts = queryResult.getContent();
-            totalSize = queryResult.getTotalElements();
-        } else {
-            Page<PostSummary> queryResult = postSummaryRepo.findByIsDisplayOrderByRegDateDesc(true, pageRequest);
-            posts = queryResult.getContent();
-            totalSize = queryResult.getTotalElements();
-        }
+        Page<PostSummary> queryResult = postSummaryRepo.findByIsDisplayOrderByRegDateDesc(true, pageRequest);
+	    List<PostSummary> posts = queryResult.getContent();
+	    long totalSize = queryResult.getTotalElements();
+
         List<PostDto> postSummary = posts.stream()
                                         .map(PostDto::summryOf)
                                         .collect(toList());
-        return new PageImpl<>(postSummary, pageRequest, totalSize);
 
+        return new PageImpl<>(postSummary, pageRequest, totalSize);
     }
+
+	@Transactional(readOnly = true)
+	public Post getPost(int id) {
+		Post post = postRepo.findOne(id);
+		if (!post.isDisplay()) {
+			throw new PostIsNotPublishedException();
+		}
+
+		return post;
+	}
 
     @Transactional
     public void writePost(String title, String contents) {
@@ -88,10 +94,5 @@ public class PostService {
             return;
         }
         post.setDisplay(false);
-    }
-
-    @Transactional
-    public Post getPost(int id) {
-        return postRepo.findOne(id);
     }
 }

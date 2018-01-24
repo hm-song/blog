@@ -1,5 +1,4 @@
-export const GET_POST = 'GET_POST';
-export const GET_POST_LIST = 'GET_POST_LIST';
-
-export const REQUEST_POSTS = 'REQUEST_POSTS';
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
+
+export const MOVE_TO_POST_DETAIL = 'MOVE_TO_POST_DETAIL';
+export const RECEIVE_POST_DETAIL = 'RECEIVE_POST_DETAIL';
