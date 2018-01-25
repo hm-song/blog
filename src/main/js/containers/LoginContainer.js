@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 class Login extends Component {
     render() {
         return (
-            <div className="modal fade" id="exampleModal" tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal fade" id="loginModal" tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
@@ -16,12 +16,12 @@ class Login extends Component {
                         <div className="modal-body">
                             <form>
                                 <div className="form-group">
-                                    <label htmlFor="recipient-name" className="form-control-label">Recipient:</label>
+                                    <label htmlFor="recipient-name" className="form-control-label">ID:</label>
                                     <input type="text" className="form-control" id="recipient-name" />
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="message-text" className="form-control-label">Message:</label>
-                                    <textarea className="form-control" id="message-text" defaultValue={""} />
+                                    <label htmlFor="message-text" className="form-control-label">Password:</label>
+                                    <input type="text" className="form-control" id="message-text" />
                                 </div>
                             </form>
                         </div>

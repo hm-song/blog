@@ -6,13 +6,14 @@ module.exports = {
     ],
 
     output: {
-        path: __dirname + '/src/main/resources/static/built/',
+        path: __dirname + '/src/main/resources/static/',
         filename: 'bundle.js'
     },
 
     devServer: {
         inline: true,
         port: 7777,
+        historyApiFallback: true,
         contentBase: [
                 __dirname + '/src/main/resources/static',
                 __dirname + '/src/main/resources/templates',

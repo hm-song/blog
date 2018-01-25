@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-const Menu = () => {
+const Menu = ({ authenticated }) => {
     return (
         <nav id="mainNav" className="navbar navbar-expand-lg navbar-light fixed-top">
             <div className="container">
@@ -10,22 +10,36 @@ const Menu = () => {
                     Menu
                     <i className="fa fa-bars" />
                 </button>
-                <div className="collapse navbar-collapse" id="navbarResponsive">
-                    <ul className="navbar-nav ml-auto">
-                        <li className="nav-item">
-                            <NavLink to="/" className="nav-link">Home</NavLink>
-                        </li>
-                        <li className="nav-item">
-                            <NavLink to="/write" className="nav-link">Write</NavLink>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="/logout">Log Out</a>
-                        </li>
-                    </ul>
-                </div>
+                <HiddenMenu authenticated={authenticated}/>
             </div>
         </nav>
     );
 };
+
+const HiddenMenu = ({ authenticated }) => {
+    if (authenticated) {
+        return (
+            <div className="collapse navbar-collapse" id="navbarResponsive">
+                <ul className="navbar-nav ml-auto">
+                    <li className="nav-item">
+                        <NavLink to="/" className="nav-link">Home</NavLink>
+                    </li>
+                    <li className="nav-item">
+                        <NavLink to="/write" className="nav-link">Write</NavLink>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href="/logout">Log Out</a>
+                    </li>
+                </ul>
+            </div>
+        )
+    } else {
+        return (
+            <div>
+
+            </div>
+        )
+    }
+}
 
 export default Menu;

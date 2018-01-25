@@ -31,6 +31,15 @@ const Footer = () => {
                                         </span>
                                 </a>
                             </li>
+
+                            <li className="list-inline-item">
+                                <a href="#" data-toggle="modal" data-target="#loginModal">
+                                    <span className="fa-stack fa-lg">
+                                      <i className="fa fa-circle fa-stack-2x" />
+                                      <i className="fa fa-cog fa-stack-1x fa-inverse" />
+                                    </span>
+                                </a>
+                            </li>
                         </ul>
                         <p className="copyright text-muted">Copyright © Your Website 2017</p>
                     </div>

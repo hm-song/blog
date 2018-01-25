@@ -1,5 +1,6 @@
 import * as types from '../actions/ActionTypes';
 
+
 const initialState = {
     page: 0,
     posts: [{id: 1, title: "FJEPOJFPOQJPFOEJPFoj", regDate: "2017-12-05", modDate: null, display: true}],
@@ -10,7 +11,8 @@ const initialState = {
         contents: ''
     },
 
-    isFetching: false
+    isFetching: false,
+    authenticated: false
 }
 
 const blogApp = (state = initialState, action) => {
