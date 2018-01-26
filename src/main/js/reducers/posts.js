@@ -15,7 +15,7 @@ const initialState = {
     authenticated: false
 }
 
-const blogApp = (state = initialState, action) => {
+const posts = (state = initialState, action) => {
     switch (action.type) {
         case types.RECEIVE_POSTS: {
             console.log(action.posts);
@@ -39,4 +39,4 @@ const blogApp = (state = initialState, action) => {
     }
 };
 
-export default blogApp;
+export default posts;

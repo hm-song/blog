@@ -1,10 +1,12 @@
 package hm.song.blog.web;
 
+import hm.song.blog.core.post.PostDto;
 import hm.song.blog.core.post.PostService;
 import hm.song.blog.core.post.domain.Post;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +18,13 @@ public class AdminPostController {
 
 	@Autowired
 	private PostService service;
+
+	@GetMapping(value = "/posts")
+	@ResponseBody
+	public PageImpl<PostDto> getPosts(int page) {
+		logger.info("getPost - page={}", page);
+		return service.getPosts(page);
+	}
 
 	@PostMapping(value = "/posts/write")
 	public void writePost(String title, String contents) {

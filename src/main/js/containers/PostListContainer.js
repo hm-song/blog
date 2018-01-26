@@ -22,9 +22,9 @@ class PostListContainer extends Component {
 
 export default connect(
     (state) => ({
-        page: state.page,
-        posts : state.posts,
-        id: state.postList
+        page: state.posts.page,
+        posts : state.posts.posts,
+        id: state.posts.postList
     }),
     (dispatch) => ({
         getPosts: (page) => { dispatch(ac.fetchPosts(page)) }

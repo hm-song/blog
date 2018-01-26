@@ -22,6 +22,10 @@ module.exports = {
             '/api': {
                 target: 'http://localhost:8080',
                 secure: false
+            },
+            '/handleLogin': {
+                target: 'http://localhost:8080',
+                secure: false
             }
         }
     },

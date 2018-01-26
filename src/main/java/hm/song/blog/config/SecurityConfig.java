@@ -15,34 +15,37 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private Environment env;
+	@Autowired
+	private Environment env;
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/api/**").permitAll()
-                .antMatchers("/index", "/posts/**", "/index2").permitAll()
-                .antMatchers("/css/**", "/image/**", "/js/**", "/libs/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-            .formLogin()
-                .successForwardUrl("/index")
-                .failureForwardUrl("/login")
-                .and()
-            .logout()
-                .logoutSuccessUrl("/index")
-                .and()
-            .csrf().disable();
-    }
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.authorizeRequests()
+				.antMatchers("/api/public/**").permitAll()
+				.antMatchers("/index", "/posts/**", "/index2").permitAll()
+				.antMatchers("/css/**", "/image/**", "/js/**", "/libs/**").permitAll()
+				.antMatchers("/api/admin/**").authenticated()
+				.anyRequest().authenticated()
+				.and()
+			.formLogin()
+				.successForwardUrl("/index")
+				.failureForwardUrl("/login")
+				.loginProcessingUrl("/handleLogin")
+				.permitAll()
+				.and()
+			.logout()
+				.logoutSuccessUrl("/index")
+				.and()
+				.csrf().disable();
+	}
 
-    @Bean
-    public UserDetailsService userDetailService() {
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(
-                User.withUsername("admin")
-                        .password("admin")
-                        .roles("ADMIN").build());
-        return manager;
-    }
+	@Bean
+	public UserDetailsService userDetailService() {
+		InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+		manager.createUser(
+				User.withUsername("admin")
+						.password("admin")
+						.roles("ADMIN").build());
+		return manager;
+	}
 }

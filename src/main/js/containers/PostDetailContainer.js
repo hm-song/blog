@@ -8,7 +8,6 @@ import { Post } from '../components';
 
 class PostDetailContainer extends Component {
     constructor(props) {
-        console.log(props);
         super(props);
     }
 
@@ -30,7 +29,7 @@ PostDetailContainer.propTypes = {};
 
 export default connect(
     (state) => ({
-        postDetail: state.postDetail
+        postDetail: state.posts.postDetail
     }),
     (dispatch) => ({
         fetchPost: (id) => dispatch(ac.fetchPostDetail(id))
