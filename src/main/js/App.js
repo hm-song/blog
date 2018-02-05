@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import { Menu, Footer } from './components/index';
+import { Footer } from './components/index';
 import { PostList, PostDetail } from './pages';
-import { LoginContainer } from './containers';
-import Login from "./containers/LoginContainer";
+import { MenuContainer, LoginContainer } from './containers';
 
 class App extends Component {
     constructor(props) {
@@ -14,7 +13,7 @@ class App extends Component {
         return (
             <Router>
                 <div>
-                    <Menu authenticated={this.props.authenticated}/>
+                    <MenuContainer/>
                     <Switch>
                         <Route exact path="/" component={PostList}/>
 
@@ -24,7 +23,7 @@ class App extends Component {
 
                     <hr/>
                     <Footer/>
-                    <Login/>
+                    <LoginContainer/>
                 </div>
             </Router>
         );

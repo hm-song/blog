@@ -10,11 +10,12 @@ export const receivePosts = (posts) => {
     }
 }
 
-export const fetchPosts = (page) => {
-    return dispatch => {
+export const fetchPosts = () => {
+    return (dispatch, getState) => {
+        const page = getState().posts.page;
         return axios.get('/api/public/posts?page=' + page)
             .then(response => {
-                dispatch(receivePosts(response.data.content))
+                dispatch(receivePosts(response.data.content));
             });
     }
 }
@@ -38,7 +39,6 @@ export const fetchPostDetail = (watchingPostId) => {
     return dispatch => {
         return axios.get('/api/public/posts/' + watchingPostId)
             .then(response => {
-                console.log(response);
                 dispatch(receivePostDetail(response.data));
             })
     }

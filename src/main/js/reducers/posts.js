@@ -11,14 +11,12 @@ const initialState = {
         contents: ''
     },
 
-    isFetching: false,
-    authenticated: false
+    isFetching: false
 }
 
 const posts = (state = initialState, action) => {
     switch (action.type) {
         case types.RECEIVE_POSTS: {
-            console.log(action.posts);
             return {
                 ...state,
                 isFetching: action.isFetching,

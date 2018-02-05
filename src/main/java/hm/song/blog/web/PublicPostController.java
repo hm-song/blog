@@ -24,13 +24,14 @@ public class PublicPostController {
 
 	@GetMapping(value = "/posts")
 	@ResponseBody
-	public PageImpl<PostDto> getPosts(int page) {
-		logger.info("getPost - page={}", page);
-		return service.getPosts(page);
+	public PageImpl<PostDto> getPosts(Principal principal, int page) {
+		logger.info("getPost() - page={}, principal={}", principal, page);
+		boolean onlyPublic = principal == null;
+		return service.getPosts(onlyPublic, page);
 	}
 
 	@GetMapping(value = "/posts/{id}")
-	public Post showPostDetail(@PathVariable int id, Model model) {
+	public Post showPostDetail(@PathVariable int id) {
 		Post post = service.getPost(id);
 		post.getContents();
 		return post;

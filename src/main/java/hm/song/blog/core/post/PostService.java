@@ -35,10 +35,16 @@ public class PostService {
     private PostRepository postRepo;
 
     @Transactional(readOnly = true)
-    public PageImpl<PostDto> getPosts(int page) {
+    public PageImpl<PostDto> getPosts(boolean onlyPublic, int page) {
         PageRequest pageRequest = new PageRequest(page, PAGE_SIZE);
 
-        Page<PostSummary> queryResult = postSummaryRepo.findByIsDisplayOrderByRegDateDesc(true, pageRequest);
+        Page<PostSummary> queryResult;
+	    if (onlyPublic) {
+			queryResult = postSummaryRepo.findByIsDisplayOrderByRegDateDesc(true, pageRequest);
+        } else {
+	    	queryResult = postSummaryRepo.findAll(pageRequest);
+	    }
+
 	    List<PostSummary> posts = queryResult.getContent();
 	    long totalSize = queryResult.getTotalElements();
 

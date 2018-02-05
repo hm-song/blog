@@ -19,13 +19,6 @@ public class AdminPostController {
 	@Autowired
 	private PostService service;
 
-	@GetMapping(value = "/posts")
-	@ResponseBody
-	public PageImpl<PostDto> getPosts(int page) {
-		logger.info("getPost - page={}", page);
-		return service.getPosts(page);
-	}
-
 	@PostMapping(value = "/posts/write")
 	public void writePost(String title, String contents) {
 		logger.info("writePost - title={}, contents = {}", title, contents);

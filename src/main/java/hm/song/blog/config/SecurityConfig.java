@@ -1,5 +1,6 @@
 package hm.song.blog.config;
 
+import hm.song.blog.config.security.RestAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -28,9 +30,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.anyRequest().authenticated()
 				.and()
 			.formLogin()
-				.successForwardUrl("/index")
-				.failureForwardUrl("/login")
 				.loginProcessingUrl("/handleLogin")
+				.successHandler(authenticationSuccessHandler())
+				.failureHandler(new SimpleUrlAuthenticationFailureHandler())
 				.permitAll()
 				.and()
 			.logout()
@@ -47,5 +49,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 						.password("admin")
 						.roles("ADMIN").build());
 		return manager;
+	}
+
+	@Bean
+	public RestAuthenticationSuccessHandler authenticationSuccessHandler() {
+		return new RestAuthenticationSuccessHandler();
 	}
 }

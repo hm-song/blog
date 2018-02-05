@@ -11,22 +11,19 @@ class PostListContainer extends Component {
     }
 
     componentDidMount() {
-        this.props.getPosts(0);
+        this.props.getPosts();
     }
 
     handlePreview() {
-        console.log('Click Preview!!');
         // this.props.router.push('/posts/1');
     }
 }
 
 export default connect(
     (state) => ({
-        page: state.posts.page,
         posts : state.posts.posts,
-        id: state.posts.postList
     }),
     (dispatch) => ({
-        getPosts: (page) => { dispatch(ac.fetchPosts(page)) }
+        getPosts: () => { dispatch(ac.fetchPosts()) }
     })
 )(PostListContainer)

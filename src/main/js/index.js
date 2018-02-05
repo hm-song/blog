@@ -14,7 +14,7 @@ let store = createStore(
 
 ReactDOM.render(
     <Provider store={store}>
-        <App authenticated={store.getState().authenticated}/>
+        <App/>
     </Provider>,
     document.getElementById('root')
 );
