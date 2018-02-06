@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Parser from 'html-react-parser';
 
 import * as types from './ActionTypes'
 
@@ -39,7 +40,12 @@ export const fetchPostDetail = (watchingPostId) => {
     return dispatch => {
         return axios.get('/api/public/posts/' + watchingPostId)
             .then(response => {
-                dispatch(receivePostDetail(response.data));
+                const post = {
+                    ...response.data,
+                    contents: Parser(response.data.contents)
+                };
+
+                dispatch(receivePostDetail(post));
             })
     }
 }

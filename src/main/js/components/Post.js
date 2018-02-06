@@ -10,7 +10,6 @@ const Post = ({ title, body }) => {
                         <div className="col-lg-8 col-md-10 mx-auto">
                             <div className="site-heading">
                                 <h1>{title}</h1>
-                                <span className="subheading">Sub Title!!</span>
                             </div>
                         </div>
                     </div>

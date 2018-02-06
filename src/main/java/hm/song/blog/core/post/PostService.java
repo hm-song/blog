@@ -56,9 +56,9 @@ public class PostService {
     }
 
 	@Transactional(readOnly = true)
-	public Post getPost(int id) {
+	public Post getPost(int id, boolean authenticated) {
 		Post post = postRepo.findOne(id);
-		if (!post.isDisplay()) {
+		if (!authenticated && !post.isDisplay()) {
 			throw new PostIsNotPublishedException();
 		}
 

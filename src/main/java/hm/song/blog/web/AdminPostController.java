@@ -10,6 +10,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @RestController
 @RequestMapping("/api/admin")
 public class AdminPostController {
@@ -22,12 +24,13 @@ public class AdminPostController {
 	@PostMapping(value = "/posts/write")
 	public void writePost(String title, String contents) {
 		logger.info("writePost - title={}, contents = {}", title, contents);
+		logger.info("[TEST] {}, {}", title.length(), contents.length());
 		service.writePost(title, contents);
 	}
 
 	@GetMapping(value = "/posts/{id}/modify/view")
-	public String getModifyView(@PathVariable int id, Model model) {
-		Post post = service.getPost(id);
+	public String getModifyView(Principal principal, @PathVariable int id, Model model) {
+		Post post = service.getPost(id, principal != null);
 		model.addAttribute("id", post.getId());
 		model.addAttribute("title", post.getTitle());
 		model.addAttribute("contents", post.getContents());

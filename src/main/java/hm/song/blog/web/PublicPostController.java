@@ -31,8 +31,8 @@ public class PublicPostController {
 	}
 
 	@GetMapping(value = "/posts/{id}")
-	public Post showPostDetail(@PathVariable int id) {
-		Post post = service.getPost(id);
+	public Post showPostDetail(Principal principal, @PathVariable int id) {
+		Post post = service.getPost(id, principal != null);
 		post.getContents();
 		return post;
 	}

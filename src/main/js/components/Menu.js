@@ -25,7 +25,7 @@ const HiddenMenu = ({ authenticated }) => {
                         <NavLink to="/" className="nav-link">Home</NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink to="/write" className="nav-link">Write</NavLink>
+                        <NavLink to="/admin/write" className="nav-link">Write</NavLink>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" href="/logout">Log Out</a>
