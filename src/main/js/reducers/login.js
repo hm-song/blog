@@ -3,7 +3,7 @@ import * as types from '../actions/LoginActionCreators';
 let initialState = {
     username: '',
     password: '',
-    authenticated: false
+    authenticated: true
 };
 
 const login = (state = initialState, action) => {

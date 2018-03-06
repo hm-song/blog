@@ -42,7 +42,7 @@ public class PostService {
 	    if (onlyPublic) {
 			queryResult = postSummaryRepo.findByIsDisplayOrderByRegDateDesc(true, pageRequest);
         } else {
-	    	queryResult = postSummaryRepo.findAll(pageRequest);
+	    	queryResult = postSummaryRepo.findByOrderByRegDateDesc(pageRequest);
 	    }
 
 	    List<PostSummary> posts = queryResult.getContent();
@@ -66,13 +66,13 @@ public class PostService {
 	}
 
     @Transactional
-    public void writePost(String title, String contents) {
+    public int writePost(String title, String contents) {
         Post post = new Post();
         post.setTitle(title.trim());
         post.setContents(contents.trim());
         post.setRegDate(new Date());
         post.setModDate(new Date());
-        postRepo.saveAndFlush(post);
+        return postRepo.saveAndFlush(post).getId();
     }
 
     @Transactional

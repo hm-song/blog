@@ -1,0 +1,13 @@
+.editor-title {
+    border: solid #ccc;
+    border-width: 1px 1px 0px 1px;
+}
+
+.editor-content {
+    height: 500px !important;
+}
+
+.editor-btn-group {
+    margin-top: 10px;
+    text-align: right;
+}

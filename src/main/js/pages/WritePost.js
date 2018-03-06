@@ -32,43 +32,32 @@ class WritePost extends Component {
     }
 
     handleSubmit = () => {
-        const body = this.state.quillBody;
-        const title = this.state.quillTitle;
+        if (confirm('추가하시겠습니까?')) {
+            const body = this.state.quillBody;
+            const title = this.state.quillTitle;
+            const params = {
+                title: title.getText(),
+                contents : body.getText()
+            };
 
-        console.log(body.getText());
-        console.log(body.getContents());
-
-        const params = {
-            title: title.getText(),
-            contents : body.getText()
-        };
-
-        axios.post('/api/admin/posts/write', qs.stringify(params));
+            axios.post('/api/admin/posts/write', qs.stringify(params))
+                .then(response => {
+                    window.location.href = '/posts/' + response.data;
+                });
+        }
     }
 
     render() {
-        const titleStyle = {
-            border: 'solid #ccc',
-            borderWidth: '1px 1px 0px 1px'
-        }
 
-        const bodyStyle = {
-            height: 375
-        }
-
-        const buttonGroupStyle = {
-            marginTop: 10,
-            textAlign: 'right'
-        }
 
         return (
             <div>
                 <Header title={'Write New Post'}/>
                 {/*<div id="editorContainer" style={containerStyle}>*/}
                 <div className="container">
-                    <div id="title" style={titleStyle}></div>
-                    <div id="content" style={bodyStyle}></div>
-                    <div style={buttonGroupStyle}>
+                    <div id="title" className="editor-title"></div>
+                    <div id="content" className="editor-content"></div>
+                    <div className="editor-btn-group">
                         <button type="button" className="btn btn-dark" onClick={this.handleSubmit}>등록</button>
                         <button type="button" className="btn btn-secondary">취소</button>
                     </div>

@@ -22,10 +22,9 @@ public class AdminPostController {
 	private PostService service;
 
 	@PostMapping(value = "/posts/write")
-	public void writePost(String title, String contents) {
+	public int writePost(String title, String contents) {
 		logger.info("writePost - title={}, contents = {}", title, contents);
-		logger.info("[TEST] {}, {}", title.length(), contents.length());
-		service.writePost(title, contents);
+		return service.writePost(title, contents);
 	}
 
 	@GetMapping(value = "/posts/{id}/modify/view")

@@ -4,7 +4,6 @@ import PostPreview from './PostPreview';
 import Post from './Post';
 import Footer from './Footer';
 import Menu from './Menu';
-import WritePost from './WritePost';
 
 export {
     Menu,
@@ -12,6 +11,5 @@ export {
     PostList,
     PostPreview,
     Post,
-    Footer,
-    WritePost
+    Footer
 };

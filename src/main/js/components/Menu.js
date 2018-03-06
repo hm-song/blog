@@ -5,7 +5,7 @@ const Menu = ({ authenticated }) => {
     return (
         <nav id="mainNav" className="navbar navbar-expand-lg navbar-light fixed-top">
             <div className="container">
-                <a className="navbar-brand" href="/index">Confident Programmer</a>
+                <a className="navbar-brand" href="/">Confident Programmer</a>
                 <button aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" className="navbar-toggler navbar-toggler-right" data-target="#navbarResponsive" data-toggle="collapse" type="button">
                     Menu
                     <i className="fa fa-bars" />

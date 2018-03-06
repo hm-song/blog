@@ -15,7 +15,10 @@ class PostDetailContainer extends Component {
         return (
             <div>
                 <Post title={this.props.postDetail.title}
-                      body={this.props.postDetail.contents} />
+                      body={this.props.postDetail.contents}
+                      postId={this.props.id}
+                      authenticated={this.props.authenticated}
+                />
             </div>
         );
     }
@@ -29,7 +32,8 @@ PostDetailContainer.propTypes = {};
 
 export default connect(
     (state) => ({
-        postDetail: state.posts.postDetail
+        postDetail: state.posts.postDetail,
+        authenticated: state.login.authenticated
     }),
     (dispatch) => ({
         fetchPost: (id) => dispatch(ac.fetchPostDetail(id))
