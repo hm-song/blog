@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import Quill from 'quill';
-
 import * as ac from '../reducers/editor';
-import * as postAction from '../actions/index';
 import { Header } from '../components';
 
 class ModifyPost extends Component {
@@ -17,8 +14,11 @@ class ModifyPost extends Component {
                     <div id="title" className="editor-title"></div>
                     <div id="content" className="editor-content"></div>
                     <div className="editor-btn-group">
-                        <button type="button" className="btn btn-dark">등록</button>
+                        <button type="button" className="btn btn-dark" onClick={this.props.submit}>등록</button>
                         <button type="button" className="btn btn-secondary">취소</button>
+                        <label>
+                            <input type="checkbox" name="public" value="true" checked={this.props.display} onChange={this.props.handleChange}/>공개
+                        </label>
                     </div>
                 </div>
             </div>
@@ -26,25 +26,20 @@ class ModifyPost extends Component {
     }
 
     componentDidMount() {
-        this.props.initEditor(
-            new Quill('.editor-content', {
-                placeholder: 'Write post content here',
-                theme: 'snow'
-            }),
-            new Quill('.editor-title', {
-                placeholder: 'Write post title here',
-                theme: 'bubble'
-            })
-        )
+        this.props.fetchPostAndModifiable(this.props.match.params.id);
     }
 }
 
 export default connect(
     (state) => ({
         title: state.editor.title,
-        body: state.editor.body
+        body: state.editor.body,
+        display: state.editor.display,
+        post:  state.posts.postDetail
     }),
     (dispatch) => ({
-        initEditor: (quillTitle, quillBody) => dispatch(ac.initEditor(quillTitle, quillBody))
+        fetchPostAndModifiable: (id) => dispatch(ac.fetchPostAndModifiable(id)),
+        handleChange: (e) => dispatch(ac.handlePublicChange(e)),
+        submit: () => dispatch(ac.submit())
     })
 )(ModifyPost);

@@ -44,7 +44,6 @@ export const fetchPostDetail = (watchingPostId) => {
                     ...response.data,
                     contents: Parser(response.data.contents)
                 };
-
                 dispatch(receivePostDetail(post));
             })
     }

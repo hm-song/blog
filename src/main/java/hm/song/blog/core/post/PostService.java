@@ -76,7 +76,7 @@ public class PostService {
     }
 
     @Transactional
-    public void updatePost(int id, String title, String contents, boolean isDisplay) {
+    public int updatePost(int id, String title, String contents, boolean isDisplay) {
         Post post = postRepo.findOne(id);
         if (post == null) {
             throw new RuntimeException("Post not found with id = " + id);
@@ -91,6 +91,8 @@ public class PostService {
         }
 
         post.setDisplay(isDisplay);
+
+        return id;
     }
 
     @Transactional

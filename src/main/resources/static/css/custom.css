@@ -11,3 +11,14 @@
     margin-top: 10px;
     text-align: right;
 }
+
+.editor-btn-group input,button {
+    margin-right: 3px;
+    margin-left: 3px;
+}
+
+.editor-btn-group label {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+}
