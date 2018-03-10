@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import * as ac from '../actions';
+import * as ac from '../module/posts';
 
 import { Post } from '../components';
 

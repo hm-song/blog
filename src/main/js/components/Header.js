@@ -8,7 +8,7 @@ const Header = ({title, subTitle}) => {
                 <div className="row">
                     <div className="col-lg-8 col-md-10 mx-auto">
                         <div className="site-heading">
-                            <h1>{title}</h1>
+                            <h2>{title}</h2>
                             <span className="subheading">{subTitle}</span>
                         </div>
                     </div>

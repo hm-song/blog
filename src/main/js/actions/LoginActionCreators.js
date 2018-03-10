@@ -3,7 +3,7 @@ import qs from 'qs';
 
 import * as message from '../helper/message';
 
-import { fetchPosts } from './';
+import { fetchPosts } from '../module/posts';
 
 export const HANDLE_CHANGE = 'HANDLE_CHANGE';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';

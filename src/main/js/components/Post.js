@@ -8,9 +8,9 @@ const Post = ({ title, body, postId, authenticated }) => {
                 <div className="overlay" />
                 <div className="container">
                     <div className="row">
-                        <div className="col-lg-8 col-md-10 mx-auto">
+                        <div className="col-lg-10 col-md-10 mx-auto">
                             <div className="site-heading">
-                                <h1>{title}</h1>
+                                <h2>{title}</h2>
                             </div>
                         </div>
                     </div>
@@ -20,7 +20,7 @@ const Post = ({ title, body, postId, authenticated }) => {
             <article>
                 <div className="container">
                     <div className="row">
-                        <div className="col-lg-8 col-md-10 mx-auto">
+                        <div className="col-lg-10 col-md-10 mx-auto">
                             {body}
                         </div>
                     </div>

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
-const PostPreview = ({id, title, regDate, handlePreview}) => (
+const PostPreview = ({id, title, regDate }) => (
     <div className="post-preview">
         <NavLink to={"/posts/" + id}>
             <h2 className="post-title">

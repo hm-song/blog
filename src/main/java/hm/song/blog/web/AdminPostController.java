@@ -1,12 +1,10 @@
 package hm.song.blog.web;
 
-import hm.song.blog.core.post.PostDto;
 import hm.song.blog.core.post.PostService;
 import hm.song.blog.core.post.domain.Post;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,7 +46,7 @@ public class AdminPostController {
 	@PostMapping(value = "/posts/{id}/remove")
 	@ResponseBody
 	public void removePost(@PathVariable int id) {
-		logger.info("removePost - id={}", id);
-		service.removePost(id);
+		logger.info("hidePost - id={}", id);
+		service.hidePost(id);
 	}
 }

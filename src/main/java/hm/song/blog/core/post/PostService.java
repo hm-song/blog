@@ -26,7 +26,7 @@ public class PostService {
 
     private static final Logger logger = LoggerFactory.getLogger(PostService.class);
 
-    private static int PAGE_SIZE = 20;
+    private static int PAGE_SIZE = 5;
 
     @Autowired
     private PostSummaryRepository postSummaryRepo;
@@ -96,7 +96,7 @@ public class PostService {
     }
 
     @Transactional
-    public void removePost(int id) {
+    public void hidePost(int id) {
         Post post = postRepo.findOne(id);
         if (post == null) {
             return;

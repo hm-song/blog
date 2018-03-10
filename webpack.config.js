@@ -43,8 +43,8 @@ module.exports = {
                         // arrow function - class { handleClick = () => { } }
                         'transform-class-properties',
 
-			// object spread operator - { ...state, key, value }
-			'transform-object-rest-spread'
+                        // object spread operator - { ...state, key, value }
+                        'transform-object-rest-spread'
                         ]
                 }
             }

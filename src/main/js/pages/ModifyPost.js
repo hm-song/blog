@@ -1,21 +1,27 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 
-import * as ac from '../reducers/editor';
+import Quill from 'quill';
+
+import * as ac from '../module/editor';
 import { Header } from '../components';
+import NavLinkButton from '../components/button/NavLinkButton';
 
 class ModifyPost extends Component {
     render() {
         return(
             <div>
                 <Header title={'Modify Post'}/>
-                {/*<div id="editorContainer" style={containerStyle}>*/}
                 <div className="container">
                     <div id="title" className="editor-title"></div>
                     <div id="content" className="editor-content"></div>
                     <div className="editor-btn-group">
-                        <button type="button" className="btn btn-dark" onClick={this.props.submit}>등록</button>
-                        <button type="button" className="btn btn-secondary">취소</button>
+                        <button type="button" className="btn btn-dark" onClick={this.submit}>등록</button>
+                        <NavLinkButton
+                            className='btn-secondary'
+                            linkTo={'/posts/' + this.props.postId}
+                            text={'취소'}/>
                         <label>
                             <input type="checkbox" name="public" value="true" checked={this.props.display} onChange={this.props.handleChange}/>공개
                         </label>
@@ -26,20 +32,47 @@ class ModifyPost extends Component {
     }
 
     componentDidMount() {
+        this.initEditor();
         this.props.fetchPostAndModifiable(this.props.match.params.id);
+    }
+
+    initEditor = () => {
+        const editorBody = new Quill('.editor-content', {
+            placeholder: 'Write post content here',
+            theme: 'snow'
+        });
+
+        const editorTitle = new Quill('.editor-title', {
+            placeholder: 'Write post title here',
+            theme: 'bubble'
+        });
+
+        this.props.initEditor(editorTitle, editorBody);
+    }
+
+    submit = () => {
+        if (confirm('저장하시겠습니까?')) {
+            const param = {
+                title: this.props.titleEditor.getText(),
+                contents: this.props.bodyEditor.getText(),
+                display: this.props.display
+            };
+            this.props.submit(this.props.postId, param);
+        }
     }
 }
 
 export default connect(
     (state) => ({
-        title: state.editor.title,
-        body: state.editor.body,
+        postId: state.editor.postId,
+        titleEditor: state.editor.quillTitle,
+        bodyEditor: state.editor.quillBody,
         display: state.editor.display,
-        post:  state.posts.postDetail
     }),
     (dispatch) => ({
         fetchPostAndModifiable: (id) => dispatch(ac.fetchPostAndModifiable(id)),
+        initEditor: (editorTitle, editorBody) => dispatch(ac.initEditor({editorTitle, editorBody})),
         handleChange: (e) => dispatch(ac.handlePublicChange(e)),
-        submit: () => dispatch(ac.submit())
+        submit: (postId, params) => dispatch(ac.submit(postId, params))
     })
 )(ModifyPost);
