@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import PostPreview from './PostPreview';
 
-import { Page } from '../containers';
+import { PageContainer } from '../containers';
 
 const PostList = ({ posts }) => {
     return (
@@ -17,7 +17,7 @@ const PostList = ({ posts }) => {
                                                 key={item.id}/>
                         })}
                     </div>
-                    <Page/>
+                    <PageContainer/>
                 </div>
             </div>
         </div>

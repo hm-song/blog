@@ -3,6 +3,8 @@ import { createAction, handleActions } from 'redux-actions';
 import axios from 'axios';
 import Parser from 'html-react-parser';
 
+import { highlight } from '../helper/highlighter';
+
 export const RECEIVE_POSTS = 'posts/RECEIVE_POSTS';
 export const RECEIVE_POST_DETAIL = 'posts/RECEIVE_POST_DETAIL';
 export const UPDATE_PAGE = 'posts/UPDATE_PAGE';
@@ -35,7 +37,6 @@ export default handleActions({
         }
     },
     [UPDATE_PAGE]: (state, action) => {
-        console.log(action);
         return {
             ...state,
             page: action.payload.page,
@@ -70,6 +71,7 @@ export const fetchPostDetail = (watchingPostId) => {
                     contents: Parser(response.data.contents)
                 };
                 dispatch(receivePostDetail(post));
+                highlight();
             })
     }
 };

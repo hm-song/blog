@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import * as ac from '../module/posts';
+// import Prism from 'prismjs';
 
+import * as ac from '../module/posts';
 import { Post } from '../components';
 
 class PostDetailContainer extends Component {
