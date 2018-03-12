@@ -55,6 +55,28 @@ public class PostService {
         return new PageImpl<>(postSummary, pageRequest, totalSize);
     }
 
+    @Transactional(readOnly = true)
+    public PageImpl<PostDto> searchPost(boolean onlyPublic, String keyword, int page) {
+    	PageRequest pageRequest = new PageRequest(page, PAGE_SIZE);
+
+	    Page<PostSummary> queryResult;
+	    if (onlyPublic) {
+    	    queryResult = postSummaryRepo.findByTitleContainingAndIsDisplayOrderByRegDateDesc(keyword,
+			        onlyPublic, pageRequest);
+	    } else {
+		    queryResult = postSummaryRepo.findByTitleContainingOrderByRegDateDesc(keyword, pageRequest);
+	    }
+
+	    List<PostSummary> posts = queryResult.getContent();
+	    long totalSize = queryResult.getTotalElements();
+
+	    List<PostDto> postSummary = posts.stream()
+			    .map(PostDto::summryOf)
+			    .collect(toList());
+
+	    return new PageImpl<>(postSummary, pageRequest, totalSize);
+    }
+
 	@Transactional(readOnly = true)
 	public Post getPost(int id, boolean authenticated) {
 		Post post = postRepo.findOne(id);

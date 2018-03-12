@@ -8,6 +8,7 @@ import { highlight } from '../helper/highlighter';
 export const RECEIVE_POSTS = 'posts/RECEIVE_POSTS';
 export const RECEIVE_POST_DETAIL = 'posts/RECEIVE_POST_DETAIL';
 export const UPDATE_PAGE = 'posts/UPDATE_PAGE';
+export const HANDLE_SEARCH_CHANGE = '/posts/HANDLE_SEARCH_CHANGE';
 
 const initialState = {
     page: 0,
@@ -15,6 +16,8 @@ const initialState = {
     hasPrevPage: false,
 
     posts: [{id: 1, title: "FJEPOJFPOQJPFOEJPFoj", regDate: "2017-12-05", modDate: null, display: true}],
+
+    searchKeyword: '',
 
     postDetail: {
         id: 0,
@@ -43,12 +46,21 @@ export default handleActions({
             hasNextPage: !action.payload.last,
             hasPrevPage: !action.payload.first
         }
+    },
+    [HANDLE_SEARCH_CHANGE]: (state, action) => {
+        return {
+            ...state,
+            searchKeyword: action.payload.target.value
+        }
     }
 }, initialState);
 
-export const fetchPosts = (page = 0) => {
+export const fetchPosts = (page = 0, keyword) => {
     return (dispatch) => {
-        return axios.get('/api/public/posts?page=' + page)
+        let param = '?page=' + page;
+        param = keyword ? param.concat('&keyword=' + keyword) : param;
+
+        return axios.get('/api/public/posts' + param)
             .then(response => {
                 dispatch(
                     updatePage({
@@ -79,3 +91,4 @@ export const fetchPostDetail = (watchingPostId) => {
 export const receivePosts = createAction(RECEIVE_POSTS);
 export const receivePostDetail = createAction(RECEIVE_POST_DETAIL);
 export const updatePage = createAction(UPDATE_PAGE);
+export const handleSearchChange = createAction(HANDLE_SEARCH_CHANGE);

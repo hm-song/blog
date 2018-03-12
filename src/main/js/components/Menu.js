@@ -1,7 +1,10 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-const Menu = ({ authenticated }) => {
+const Menu = ({ authenticated, handleSearchChange, search }) => {
+    const menuItems = authenticated ?
+        <HiddenMenu handleSearchChange={handleSearchChange} search={search}/> :
+        <CommonMenu handleSearchChange={handleSearchChange} search={search}/>;
     return (
         <nav id="mainNav" className="navbar navbar-expand-lg navbar-light fixed-top">
             <div className="container">
@@ -10,36 +13,43 @@ const Menu = ({ authenticated }) => {
                     Menu
                     <i className="fa fa-bars" />
                 </button>
-                <HiddenMenu authenticated={authenticated}/>
+                {menuItems}
             </div>
         </nav>
     );
 };
 
-const HiddenMenu = ({ authenticated }) => {
-    if (authenticated) {
-        return (
+const HiddenMenu = ({ handleSearchChange, search }) => {
+    return (
+        <div className="collapse navbar-collapse" id="navbarResponsive">
+            <ul className="navbar-nav ml-auto">
+                <li className="nav-item">
+                    <NavLink to="/admin/write" className="nav-link">Write</NavLink>
+                </li>
+                <li className="nav-item">
+                    <a className="nav-link" href="/logout">Log Out</a>
+                </li>
+                <li className="nav-item">
+                    <input className="form-control form-control-sm" type="text" placeholder="Search" onChange={handleSearchChange} onKeyPress={search}/>
+                </li>
+            </ul>
+        </div>
+    )
+};
+
+const CommonMenu = ({ handleSearchChange, search }) => {
+    return (
+        <div>
             <div className="collapse navbar-collapse" id="navbarResponsive">
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item">
-                        <NavLink to="/" className="nav-link">Home</NavLink>
-                    </li>
-                    <li className="nav-item">
-                        <NavLink to="/admin/write" className="nav-link">Write</NavLink>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="/logout">Log Out</a>
+                        <input className="form-control form-control-sm" type="text" placeholder="Search" onChange={handleSearchChange} onKeyPress={search}/>
                     </li>
                 </ul>
             </div>
-        )
-    } else {
-        return (
-            <div>
+        </div>
+    )
+};
 
-            </div>
-        )
-    }
-}
 
 export default Menu;

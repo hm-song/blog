@@ -7,8 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -22,12 +20,20 @@ public class PublicPostController {
 	@Autowired
 	private PostService service;
 
-	@GetMapping(value = "/posts")
+	@GetMapping(value = "/posts", params={"page"})
 	@ResponseBody
 	public PageImpl<PostDto> getPosts(Principal principal, int page) {
-		logger.info("getPost() - page={}, principal={}", principal, page);
+		logger.info("getPost() - page={}, principal={}", page, principal != null);
 		boolean onlyPublic = principal == null;
 		return service.getPosts(onlyPublic, page);
+	}
+
+	@GetMapping(value = "/posts", params={"page", "keyword"})
+	@ResponseBody
+	public PageImpl<PostDto> searchPost(Principal principal, String keyword, int page) {
+		logger.info("searchPost() - keyword={}, page={}, principal={}", keyword, page, principal != null);
+		boolean onlyPublic = principal == null;
+		return service.searchPost(onlyPublic, keyword, page);
 	}
 
 	@GetMapping(value = "/posts/{id}")

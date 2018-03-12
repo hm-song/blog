@@ -22,11 +22,11 @@ class Login extends Component {
                             <form>
                                 <div className="form-group">
                                     <label htmlFor="recipient-name" className="form-control-label">ID:</label>
-                                    <input type="text" className="form-control" name="username" value={username} onChange={(e) => handleChange(e)}/>
+                                    <input type="text" className="form-control" name="username" value={username} onChange={(e) => handleChange(e)} onKeyPress={this.handleKeyPress}/>
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="message-text" className="form-control-label">Password:</label>
-                                    <input type="text" className="form-control" name="password" value={password} onChange={(e) => handleChange(e)}/>
+                                    <input type="text" className="form-control" name="password" value={password} onChange={(e) => handleChange(e)} onKeyPress={this.handleKeyPress}/>
                                 </div>
                             </form>
                         </div>
@@ -38,6 +38,12 @@ class Login extends Component {
                 </div>
             </div>
         );
+    }
+
+    handleKeyPress = (e) => {
+        if (e.key == 'Enter') {
+            this.props.login();
+        }
     }
 }
 
