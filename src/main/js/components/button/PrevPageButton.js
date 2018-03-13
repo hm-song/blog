@@ -1,8 +1,9 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
-const PrevPageButton = ({handleClick}) => {
+const PrevPageButton = ({ path }) => {
     return (
-        <button className="btn btn-primary float-left" onClick={handleClick}>&larr; Newer Posts</button>
+        <NavLink className="btn btn-primary float-left" to={path}>&larr; Newer Posts</NavLink>
     );
 };
 

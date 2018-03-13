@@ -17,7 +17,7 @@ class MenuContainer extends Component {
 
     search = (e) => {
         if (e.key == 'Enter') {
-            this.props.fetchPost(this.props.searchKeyword);
+            this.props.fetchPost(this.props.search);
         }
     }
 }
@@ -27,7 +27,7 @@ MenuContainer.propTypes = {};
 export default connect(
     (state) => ({
         authenticated: state.login.authenticated,
-        searchKeyword: state.posts.searchKeyword
+        search: state.posts.search
     }),
     (dispatch) => ({
         handleSearchChange: (e) => {dispatch(postActions.handleSearchChange(e))},

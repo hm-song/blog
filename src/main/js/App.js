@@ -16,6 +16,7 @@ class App extends Component {
                     <MenuContainer/>
                     <Switch>
                         <Route exact path="/" component={PostList}/>
+                        <Route path="/page/:page" component={PostList}/>
                         {/* path="/url/:pathVariable 형태로 변수 전달 가능 */}
                         <Route path="/posts/:id" component={PostDetail}/>
                         <Route path="/modify/:id" component={ModifyPost}/>

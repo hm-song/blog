@@ -8,9 +8,20 @@ import NextPageButton from '../components/button/NextPageButton';
 import PrevPageButton from "../components/button/PrevPageButton";
 
 class Page extends Component {
+
+    // TODO: 페이지 클릭 시 search= 가 계속 붙음
     render() {
-        const nextPage = this.props.hasNextPage ? <NextPageButton handleClick={this.nextPage}/> : null;
-        const prevPage = this.props.hasPrevPage ? <PrevPageButton handleClick={this.prevPage}/> : null;
+        let nextPageNum = new Number(this.props.page) + 1;
+        let prevPageNum = new Number(this.props.page) - 1;
+        let nextPath = '/page/' + nextPageNum;
+        let prevPath = '/page/' + prevPageNum;
+
+        nextPath = this.props.search ? nextPath.concat('?search=' + this.props.search) : nextPath;
+        prevPath = this.props.search ? nextPath.concat('?search=' + this.props.search) : prevPath;
+
+
+        const nextPage = this.props.hasNextPage ? <NextPageButton path={nextPath}/> : null;
+        const prevPage = this.props.hasPrevPage ? <PrevPageButton path={prevPath}/> : null;
         return (
             <div className="clearfix">
                 {nextPage}
@@ -26,6 +37,12 @@ class Page extends Component {
     prevPage = () => {
         this.props.fetchPosts(this.props.page - 1);
     };
+
+
+    componentDidMount() {
+
+    }
+
 }
 
 Page.propTypes = {};
@@ -33,6 +50,7 @@ Page.propTypes = {};
 export default connect(
     (state) => ({
         page: state.posts.page,
+        search: state.posts.search,
         hasNextPage: state.posts.hasNextPage,
         hasPrevPage: state.posts.hasPrevPage
     }),

@@ -28,12 +28,12 @@ public class PublicPostController {
 		return service.getPosts(onlyPublic, page);
 	}
 
-	@GetMapping(value = "/posts", params={"page", "keyword"})
+	@GetMapping(value = "/posts", params={"page", "search"})
 	@ResponseBody
-	public PageImpl<PostDto> searchPost(Principal principal, String keyword, int page) {
-		logger.info("searchPost() - keyword={}, page={}, principal={}", keyword, page, principal != null);
+	public PageImpl<PostDto> searchPost(Principal principal, String search, int page) {
+		logger.info("searchPost() - search={}, page={}, principal={}", search, page, principal != null);
 		boolean onlyPublic = principal == null;
-		return service.searchPost(onlyPublic, keyword, page);
+		return service.searchPost(onlyPublic, search, page);
 	}
 
 	@GetMapping(value = "/posts/{id}")

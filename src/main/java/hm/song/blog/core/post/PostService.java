@@ -56,15 +56,15 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public PageImpl<PostDto> searchPost(boolean onlyPublic, String keyword, int page) {
+    public PageImpl<PostDto> searchPost(boolean onlyPublic, String search, int page) {
     	PageRequest pageRequest = new PageRequest(page, PAGE_SIZE);
 
 	    Page<PostSummary> queryResult;
 	    if (onlyPublic) {
-    	    queryResult = postSummaryRepo.findByTitleContainingAndIsDisplayOrderByRegDateDesc(keyword,
+    	    queryResult = postSummaryRepo.findByTitleContainingAndIsDisplayOrderByRegDateDesc(search,
 			        onlyPublic, pageRequest);
 	    } else {
-		    queryResult = postSummaryRepo.findByTitleContainingOrderByRegDateDesc(keyword, pageRequest);
+		    queryResult = postSummaryRepo.findByTitleContainingOrderByRegDateDesc(search, pageRequest);
 	    }
 
 	    List<PostSummary> posts = queryResult.getContent();

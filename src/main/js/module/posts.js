@@ -9,15 +9,17 @@ export const RECEIVE_POSTS = 'posts/RECEIVE_POSTS';
 export const RECEIVE_POST_DETAIL = 'posts/RECEIVE_POST_DETAIL';
 export const UPDATE_PAGE = 'posts/UPDATE_PAGE';
 export const HANDLE_SEARCH_CHANGE = '/posts/HANDLE_SEARCH_CHANGE';
+export const STORE_PARAMETER = 'posts/STORE_PARAMETER';
 
 const initialState = {
     page: 0,
+    search: '',
+
     hasNextPage: false,
     hasPrevPage: false,
 
     posts: [{id: 1, title: "FJEPOJFPOQJPFOEJPFoj", regDate: "2017-12-05", modDate: null, display: true}],
 
-    searchKeyword: '',
 
     postDetail: {
         id: 0,
@@ -43,6 +45,7 @@ export default handleActions({
         return {
             ...state,
             page: action.payload.page,
+            search: action.payload.search,
             hasNextPage: !action.payload.last,
             hasPrevPage: !action.payload.first
         }
@@ -50,21 +53,22 @@ export default handleActions({
     [HANDLE_SEARCH_CHANGE]: (state, action) => {
         return {
             ...state,
-            searchKeyword: action.payload.target.value
+            search: action.payload.target.value
         }
     }
 }, initialState);
 
-export const fetchPosts = (page = 0, keyword) => {
+export const fetchPosts = (page = 0, search) => {
     return (dispatch) => {
         let param = '?page=' + page;
-        param = keyword ? param.concat('&keyword=' + keyword) : param;
+        param = search ? param.concat('&search=' + search) : param;
 
         return axios.get('/api/public/posts' + param)
             .then(response => {
                 dispatch(
                     updatePage({
                         page,
+                        search,
                         first: response.data.first,
                         last: response.data.last
                     }));
