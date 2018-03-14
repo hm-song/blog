@@ -8,8 +8,6 @@ import { highlight } from '../helper/highlighter';
 export const RECEIVE_POSTS = 'posts/RECEIVE_POSTS';
 export const RECEIVE_POST_DETAIL = 'posts/RECEIVE_POST_DETAIL';
 export const UPDATE_PAGE = 'posts/UPDATE_PAGE';
-export const HANDLE_SEARCH_CHANGE = '/posts/HANDLE_SEARCH_CHANGE';
-export const STORE_PARAMETER = 'posts/STORE_PARAMETER';
 
 const initialState = {
     page: 0,
@@ -19,7 +17,6 @@ const initialState = {
     hasPrevPage: false,
 
     posts: [{id: 1, title: "FJEPOJFPOQJPFOEJPFoj", regDate: "2017-12-05", modDate: null, display: true}],
-
 
     postDetail: {
         id: 0,
@@ -49,12 +46,6 @@ export default handleActions({
             hasNextPage: !action.payload.last,
             hasPrevPage: !action.payload.first
         }
-    },
-    [HANDLE_SEARCH_CHANGE]: (state, action) => {
-        return {
-            ...state,
-            search: action.payload.target.value
-        }
     }
 }, initialState);
 
@@ -62,6 +53,8 @@ export const fetchPosts = (page = 0, search) => {
     return (dispatch) => {
         let param = '?page=' + page;
         param = search ? param.concat('&search=' + search) : param;
+
+        console.log('fetch param - ', param);
 
         return axios.get('/api/public/posts' + param)
             .then(response => {
@@ -95,4 +88,3 @@ export const fetchPostDetail = (watchingPostId) => {
 export const receivePosts = createAction(RECEIVE_POSTS);
 export const receivePostDetail = createAction(RECEIVE_POST_DETAIL);
 export const updatePage = createAction(UPDATE_PAGE);
-export const handleSearchChange = createAction(HANDLE_SEARCH_CHANGE);

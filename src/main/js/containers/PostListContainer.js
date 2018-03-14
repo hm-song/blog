@@ -17,18 +17,21 @@ class PostListContainer extends Component {
         )
     }
 
-
     componentDidMount() {
-        this.props.getPosts(this.props.page);
+        this.props.getPosts(this.props.page, this.getSearchQuery());
     }
 
-    // TODO: 최적화 필요. ajax 통신 딜레이 동안 this.props.page가 갱신되지 않음.
+    // TODO: 페이지 이동시 두번 호출됨. ajax 통신 딜레이 동안 this.props.page가 갱신되지 않음.
     componentWillReceiveProps(nextProps) {
+        console.log('nextPage - ', nextProps.targetPage, ', currentPage - ', this.props.page);
         if (nextProps.targetPage && nextProps.targetPage != this.props.page) {
-            console.log('fetch!');
+            this.props.getPosts(nextProps.targetPage, this.getSearchQuery());
+        }
+    }
 
-            const param = qs.parse(location.search.substr(1, location.search.length));
-            this.props.getPosts(nextProps.targetPage, param.search);
+    getSearchQuery = () => {
+        if (location.search) {
+            return qs.parse(location.search.substr(1, location.search.length)).search;
         }
     }
 

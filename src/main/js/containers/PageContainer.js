@@ -9,15 +9,19 @@ import PrevPageButton from "../components/button/PrevPageButton";
 
 class Page extends Component {
 
-    // TODO: 페이지 클릭 시 search= 가 계속 붙음
+    // TODO: 리팩토링
     render() {
         let nextPageNum = new Number(this.props.page) + 1;
         let prevPageNum = new Number(this.props.page) - 1;
         let nextPath = '/page/' + nextPageNum;
         let prevPath = '/page/' + prevPageNum;
 
+        console.log('nextPath - ', nextPath);
+        console.log('prevPath - ', prevPath);
+        console.log('search - ', this.props.search);
+
         nextPath = this.props.search ? nextPath.concat('?search=' + this.props.search) : nextPath;
-        prevPath = this.props.search ? nextPath.concat('?search=' + this.props.search) : prevPath;
+        prevPath = this.props.search ? prevPath.concat('?search=' + this.props.search) : prevPath;
 
 
         const nextPage = this.props.hasNextPage ? <NextPageButton path={nextPath}/> : null;
@@ -29,20 +33,6 @@ class Page extends Component {
             </div>
         );
     }
-
-    nextPage = () => {
-        this.props.fetchPosts(this.props.page + 1);
-    };
-
-    prevPage = () => {
-        this.props.fetchPosts(this.props.page - 1);
-    };
-
-
-    componentDidMount() {
-
-    }
-
 }
 
 Page.propTypes = {};

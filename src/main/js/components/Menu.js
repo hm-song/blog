@@ -1,10 +1,10 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-const Menu = ({ authenticated, handleSearchChange, search }) => {
+const Menu = ({ authenticated, search }) => {
     const menuItems = authenticated ?
-        <HiddenMenu handleSearchChange={handleSearchChange} search={search}/> :
-        <CommonMenu handleSearchChange={handleSearchChange} search={search}/>;
+        <HiddenMenu search={search}/> :
+        <CommonMenu search={search}/>;
     return (
         <nav id="mainNav" className="navbar navbar-expand-lg navbar-light fixed-top">
             <div className="container">
@@ -19,7 +19,7 @@ const Menu = ({ authenticated, handleSearchChange, search }) => {
     );
 };
 
-const HiddenMenu = ({ handleSearchChange, search }) => {
+const HiddenMenu = ({ search }) => {
     return (
         <div className="collapse navbar-collapse" id="navbarResponsive">
             <ul className="navbar-nav ml-auto">
@@ -30,20 +30,20 @@ const HiddenMenu = ({ handleSearchChange, search }) => {
                     <a className="nav-link" href="/logout">Log Out</a>
                 </li>
                 <li className="nav-item">
-                    <input className="form-control form-control-sm" type="text" placeholder="Search" onChange={handleSearchChange} onKeyPress={search}/>
+                    <input className="form-control form-control-sm" type="text" placeholder="Search" onKeyPress={search}/>
                 </li>
             </ul>
         </div>
     )
 };
 
-const CommonMenu = ({ handleSearchChange, search }) => {
+const CommonMenu = ({ search }) => {
     return (
         <div>
             <div className="collapse navbar-collapse" id="navbarResponsive">
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item">
-                        <input className="form-control form-control-sm" type="text" placeholder="Search" onChange={handleSearchChange} onKeyPress={search}/>
+                        <input className="form-control form-control-sm" type="text" placeholder="Search" onKeyPress={search}/>
                     </li>
                 </ul>
             </div>
