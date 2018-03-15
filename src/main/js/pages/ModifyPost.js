@@ -1,14 +1,52 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
 
 import Quill from 'quill';
+import NavLinkButton from '../components/button/NavLinkButton';
 
 import * as ac from '../module/editor';
 import { Header } from '../components';
-import NavLinkButton from '../components/button/NavLinkButton';
+import { TagInputContainer } from '../containers';
 
 class ModifyPost extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            tags: [{ id: 1, text: "Thailand" }, { id: 2, text: "India" }],
+            suggestions: ['USA', 'Germany', 'Austria', 'Costa Rica', 'Sri Lanka', 'Thailand']
+        };
+        this.handleDelete = this.handleDelete.bind(this);
+        this.handleAddition = this.handleAddition.bind(this);
+        this.handleDrag = this.handleDrag.bind(this);
+    }
+
+    handleDelete(i) {
+        let tags = this.state.tags;
+        tags.splice(i, 1);
+        this.setState({tags: tags});
+    }
+
+    handleAddition(tag) {
+        let tags = this.state.tags;
+        tags.push({
+            id: tags.length + 1,
+            text: tag
+        });
+        this.setState({tags: tags});
+    }
+
+    handleDrag(tag, currPos, newPos) {
+        let tags = this.state.tags;
+
+        // mutate array
+        tags.splice(currPos, 1);
+        tags.splice(newPos, 0, tag);
+
+        // re-render
+        this.setState({ tags: tags });
+    }
+
     render() {
         return(
             <div>
@@ -16,6 +54,12 @@ class ModifyPost extends Component {
                 <div className="container">
                     <div id="title" className="editor-title"></div>
                     <div id="content" className="editor-content"></div>
+
+                    <div className="tag-group">
+                        <h5>Tag</h5>
+                        <TagInputContainer/>
+                    </div>
+
                     <div className="editor-btn-group">
                         <button type="button" className="btn btn-dark" onClick={this.submit}>등록</button>
                         <NavLinkButton

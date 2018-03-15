@@ -22,3 +22,12 @@
     font-size: 16px;
     font-weight: 800;
 }
+
+.tag-group {
+    margin: 20px 0px 20px 0px;
+}
+
+.ReactTags__tag, .ReactTags__tagInputField {
+    font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+    font-weight: 700;
+}

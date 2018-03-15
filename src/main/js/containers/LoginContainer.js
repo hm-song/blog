@@ -26,7 +26,7 @@ class Login extends Component {
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="message-text" className="form-control-label">Password:</label>
-                                    <input type="text" className="form-control" name="password" value={password} onChange={(e) => handleChange(e)} onKeyPress={this.handleKeyPress}/>
+                                    <input type="password" className="form-control" name="password" value={password} onChange={(e) => handleChange(e)} onKeyPress={this.handleKeyPress}/>
                                 </div>
                             </form>
                         </div>
