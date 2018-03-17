@@ -8,10 +8,13 @@ import * as tagActions from '../module/tags';
 
 
 class TagInput extends Component {
+    constructor(props) {
+        super(props);
+    }
+
     render() {
-        console.log(this.props.tags);
         return (
-            <ReactTags tags={this.props.tag}
+            <ReactTags tags={this.props.tags}
                        suggestions={this.props.suggestions}
                        handleDelete={this.props.handleDelete}
                        handleAddition={this.props.handleAdd}
@@ -25,11 +28,11 @@ class TagInput extends Component {
 export default connect(
     (state) => ({
         tags: state.tags.get('tags').toJSON(),
-        suggestions: state.tags.suggestions
+        suggestions: state.tags.get('suggestions').toJSON()
     }),
     (dispatch) => ({
         handleAdd: (tag) => dispatch(tagActions.handleAdd(tag)),
         handleDelete: (index) => dispatch(tagActions.handleDelete(index)),
-        handleDrag: (tag, currPos, newPos) => dispatch(tagActions.handleDrag(tag, currPos, newPos))
+        handleDrag: (tag, currPos, newPos) => dispatch(tagActions.handleDrag({tag, currPos, newPos}))
     })
 )(TagInput);

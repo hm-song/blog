@@ -9,6 +9,7 @@
 
 #### Front-end Dependencies
 - [react-tag-input](https://www.npmjs.com/package/react-tag-input)
+- [immutable](https://www.npmjs.com/package/immutable)
 
 #### User API
 | 기능 | API |

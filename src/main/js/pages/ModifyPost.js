@@ -9,44 +9,6 @@ import { Header } from '../components';
 import { TagInputContainer } from '../containers';
 
 class ModifyPost extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            tags: [{ id: 1, text: "Thailand" }, { id: 2, text: "India" }],
-            suggestions: ['USA', 'Germany', 'Austria', 'Costa Rica', 'Sri Lanka', 'Thailand']
-        };
-        this.handleDelete = this.handleDelete.bind(this);
-        this.handleAddition = this.handleAddition.bind(this);
-        this.handleDrag = this.handleDrag.bind(this);
-    }
-
-    handleDelete(i) {
-        let tags = this.state.tags;
-        tags.splice(i, 1);
-        this.setState({tags: tags});
-    }
-
-    handleAddition(tag) {
-        let tags = this.state.tags;
-        tags.push({
-            id: tags.length + 1,
-            text: tag
-        });
-        this.setState({tags: tags});
-    }
-
-    handleDrag(tag, currPos, newPos) {
-        let tags = this.state.tags;
-
-        // mutate array
-        tags.splice(currPos, 1);
-        tags.splice(newPos, 0, tag);
-
-        // re-render
-        this.setState({ tags: tags });
-    }
-
     render() {
         return(
             <div>
@@ -57,7 +19,7 @@ class ModifyPost extends Component {
 
                     <div className="tag-group">
                         <h5>Tag</h5>
-                        <TagInputContainer/>
+                        <TagInputContainer tags={this.props.tags}/>
                     </div>
 
                     <div className="editor-btn-group">
@@ -95,12 +57,16 @@ class ModifyPost extends Component {
     }
 
     submit = () => {
+        const tags = this.props.tags.map(tag => tag.text);
+
         if (confirm('저장하시겠습니까?')) {
             const param = {
                 title: this.props.titleEditor.getText(),
                 contents: this.props.bodyEditor.getText(),
-                display: this.props.display
+                display: this.props.display,
+                tags: tags
             };
+            console.log(param);
             this.props.submit(this.props.postId, param);
         }
     }
@@ -112,6 +78,7 @@ export default connect(
         titleEditor: state.editor.quillTitle,
         bodyEditor: state.editor.quillBody,
         display: state.editor.display,
+        tags: state.tags.get('tags').toJSON()
     }),
     (dispatch) => ({
         fetchPostAndModifiable: (id) => dispatch(ac.fetchPostAndModifiable(id)),

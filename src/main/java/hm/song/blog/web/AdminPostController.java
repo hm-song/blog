@@ -37,10 +37,10 @@ public class AdminPostController {
 
 	@PostMapping(value = "/posts/{id}/modify")
 	public int updatePost(@PathVariable int id, String title,
-	                      boolean display, String contents) {
-		logger.info("updatePost() - id={}, title={}, display={}, contentsSize={}",
-				id, title, display, contents.length());
-		return service.updatePost(id, title, contents, display);
+	                      boolean display, String contents, String[] tags) {
+		logger.info("updatePost() - id={}, title={}, display={}, contentsSize={}, tags={}",
+				id, title, display, contents.length(), tags);
+		return service.updatePost(id, title, contents, display, tags);
 	}
 
 	@PostMapping(value = "/posts/{id}/remove")

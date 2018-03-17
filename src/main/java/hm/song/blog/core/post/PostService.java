@@ -2,8 +2,10 @@ package hm.song.blog.core.post;
 
 import com.google.common.base.Strings;
 import hm.song.blog.core.exception.PostIsNotPublishedException;
+import hm.song.blog.core.post.domain.BasePost;
 import hm.song.blog.core.post.domain.Post;
 import hm.song.blog.core.post.domain.PostSummary;
+import hm.song.blog.core.post.domain.Tag;
 import hm.song.blog.core.post.repo.PostRepository;
 import hm.song.blog.core.post.repo.PostSummaryRepository;
 import org.slf4j.Logger;
@@ -15,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -98,7 +101,8 @@ public class PostService {
     }
 
     @Transactional
-    public int updatePost(int id, String title, String contents, boolean isDisplay) {
+    public int updatePost(int id, String title, String contents,
+                          boolean isDisplay, String[] tags) {
         Post post = postRepo.findOne(id);
         if (post == null) {
             throw new RuntimeException("Post not found with id = " + id);
@@ -112,7 +116,19 @@ public class PostService {
             post.setContents(contents.trim());
         }
 
-        post.setDisplay(isDisplay);
+        // 요청 안들어온 태그 삭제
+	    List<Tag> updatedTags = post.getTags().stream()
+			    .filter(item -> Arrays.asList(tags).contains(item))
+			    .collect(toList());
+
+        // 새로운 태그 추가
+        updatedTags.addAll(Arrays.stream(tags)
+				        .map(tag -> new Tag(id, tag))
+		                .filter(tag -> !updatedTags.contains(tag))
+				        .collect(toList()));
+
+	    post.setTags(updatedTags);
+	    post.setDisplay(isDisplay);
 
         return id;
     }
