@@ -68,7 +68,7 @@ export const submit = (postId, params) => {
         axios.post('/api/admin/posts/' + postId + '/modify', qs.stringify(params, { arrayFormat: 'repeat'}))
             .then(response => {
                 alert('저장됐습니다.');
-                // window.location.href = '/posts/' + response.data;
+                window.location.href = '/posts/' + response.data;
             });
     }
 }

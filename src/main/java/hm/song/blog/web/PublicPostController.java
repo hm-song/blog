@@ -6,6 +6,7 @@ import hm.song.blog.core.post.PostService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,7 @@ public class PublicPostController {
 
 	@GetMapping(value = "/posts", params={"page"})
 	@ResponseBody
-	public PageImpl<PostDto> getPosts(Principal principal, int page) {
+	public Page<PostDto> getPosts(Principal principal, int page) {
 		logger.info("getPost() - page={}, principal={}", page, principal != null);
 		boolean onlyPublic = principal == null;
 		return service.getPosts(onlyPublic, page);
@@ -30,7 +31,7 @@ public class PublicPostController {
 
 	@GetMapping(value = "/posts", params={"page", "search"})
 	@ResponseBody
-	public PageImpl<PostDto> searchPost(Principal principal, String search, int page) {
+	public Page<PostDto> searchPost(Principal principal, String search, int page) {
 		logger.info("searchPost() - search={}, page={}, principal={}", search, page, principal != null);
 		boolean onlyPublic = principal == null;
 		return service.searchPost(onlyPublic, search, page);

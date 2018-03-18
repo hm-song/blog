@@ -2,10 +2,8 @@ package hm.song.blog.core.post;
 
 import com.google.common.base.Strings;
 import hm.song.blog.core.exception.PostIsNotPublishedException;
-import hm.song.blog.core.post.domain.BasePost;
 import hm.song.blog.core.post.domain.Post;
 import hm.song.blog.core.post.domain.PostSummary;
-import hm.song.blog.core.post.domain.Tag;
 import hm.song.blog.core.post.repo.PostRepository;
 import hm.song.blog.core.post.repo.PostSummaryRepository;
 import org.slf4j.Logger;
@@ -17,9 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static java.util.stream.Collectors.toList;
 
@@ -38,7 +34,7 @@ public class PostService {
     private PostRepository postRepo;
 
     @Transactional(readOnly = true)
-    public PageImpl<PostDto> getPosts(boolean onlyPublic, int page) {
+    public Page<PostDto> getPosts(boolean onlyPublic, int page) {
         PageRequest pageRequest = new PageRequest(page, PAGE_SIZE);
 
         Page<PostSummary> queryResult;
@@ -48,36 +44,33 @@ public class PostService {
 	    	queryResult = postSummaryRepo.findByOrderByRegDateDesc(pageRequest);
 	    }
 
+	    return toPagedDto(queryResult, pageRequest);
+    }
+
+    private Page<PostDto> toPagedDto(Page<PostSummary> queryResult, PageRequest pageRequest) {
 	    List<PostSummary> posts = queryResult.getContent();
 	    long totalSize = queryResult.getTotalElements();
 
-        List<PostDto> postSummary = posts.stream()
-                                        .map(PostDto::summryOf)
-                                        .collect(toList());
+	    List<PostDto> postDtoList = posts.stream()
+			    .map(PostDto::summryOf)
+			    .collect(toList());
 
-        return new PageImpl<>(postSummary, pageRequest, totalSize);
+	    return new PageImpl<>(postDtoList, pageRequest, totalSize);
     }
 
     @Transactional(readOnly = true)
-    public PageImpl<PostDto> searchPost(boolean onlyPublic, String search, int page) {
+    public Page<PostDto> searchPost(boolean onlyPublic, String search, int page) {
     	PageRequest pageRequest = new PageRequest(page, PAGE_SIZE);
 
 	    Page<PostSummary> queryResult;
 	    if (onlyPublic) {
-    	    queryResult = postSummaryRepo.findByTitleContainingAndIsDisplayOrderByRegDateDesc(search,
-			        onlyPublic, pageRequest);
+    	    queryResult = postSummaryRepo.findByTitleLikeAndIsDisplayFromPostOrTagFromTag(search,
+			        search, onlyPublic, pageRequest);
 	    } else {
-		    queryResult = postSummaryRepo.findByTitleContainingOrderByRegDateDesc(search, pageRequest);
+		    queryResult = postSummaryRepo.findByTitleLikeAndFromPostOrTagFromTag(search, search, pageRequest);
 	    }
 
-	    List<PostSummary> posts = queryResult.getContent();
-	    long totalSize = queryResult.getTotalElements();
-
-	    List<PostDto> postSummary = posts.stream()
-			    .map(PostDto::summryOf)
-			    .collect(toList());
-
-	    return new PageImpl<>(postSummary, pageRequest, totalSize);
+	    return toPagedDto(queryResult, pageRequest);
     }
 
 	@Transactional(readOnly = true)
@@ -116,18 +109,7 @@ public class PostService {
             post.setContents(contents.trim());
         }
 
-        // 요청 안들어온 태그 삭제
-	    List<Tag> updatedTags = post.getTags().stream()
-			    .filter(item -> Arrays.asList(tags).contains(item))
-			    .collect(toList());
-
-        // 새로운 태그 추가
-        updatedTags.addAll(Arrays.stream(tags)
-				        .map(tag -> new Tag(id, tag))
-		                .filter(tag -> !updatedTags.contains(tag))
-				        .collect(toList()));
-
-	    post.setTags(updatedTags);
+		post.updateTag(tags);
 	    post.setDisplay(isDisplay);
 
         return id;

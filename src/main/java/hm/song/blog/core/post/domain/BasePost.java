@@ -5,9 +5,9 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+
+import static java.util.stream.Collectors.toSet;
 
 @Data
 @MappedSuperclass
@@ -32,8 +32,8 @@ public class BasePost {
 	@Column(name = "MOD_DATE", nullable = false)
 	private Date modDate;
 
-	@OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private List<Tag> tags = new ArrayList<>();
+	@OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Tag> tags = new HashSet<>();
 
 	public BasePost(String title, boolean isDisplay, Date regDate, Date modDate) {
 		this.title = title;
@@ -50,6 +50,27 @@ public class BasePost {
 		return new SimpleDateFormat("MMMMM dd, yyyy").format(regDate);
 	}
 
+	public void updateTag(String[] tags) {
+		if (tags == null || tags.length == 0) {
+			this.tags.clear();
+			return;
+		}
+
+		Set<Tag> newTags = Arrays.stream(tags)
+				.map(tag -> new Tag(this.id, tag))
+				.collect(toSet());
+
+		// 태그 삭제
+		this.tags.removeIf(oldTag -> !newTags.contains(oldTag));
+
+		// 새로운 태그 추가
+		newTags.forEach(newTag -> {
+			if (!this.tags.contains(newTag)) {
+				this.tags.add(newTag);
+			}
+		});
+	}
+
 	@Override
 	public String toString() {
 		return "BasePost{" +
@@ -58,7 +79,6 @@ public class BasePost {
 				", isDisplay=" + isDisplay +
 				", regDate=" + regDate +
 				", modDate=" + modDate +
-				", tags=" + tags +
 				'}';
 	}
 }

@@ -15,9 +15,7 @@ class PostDetailContainer extends Component {
     render() {
         return (
             <div>
-                <Post title={this.props.postDetail.title}
-                      body={this.props.postDetail.contents}
-                      postId={this.props.id}
+                <Post post={this.props.postDetail}
                       authenticated={this.props.authenticated}
                 />
             </div>

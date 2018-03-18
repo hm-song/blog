@@ -21,7 +21,8 @@ const initialState = {
     postDetail: {
         id: 0,
         title: '',
-        contents: ''
+        contents: '',
+        tags: []
     }
 };
 
@@ -53,8 +54,6 @@ export const fetchPosts = (page = 0, search) => {
     return (dispatch) => {
         let param = '?page=' + page;
         param = search ? param.concat('&search=' + search) : param;
-
-        console.log('fetch param - ', param);
 
         return axios.get('/api/public/posts' + param)
             .then(response => {

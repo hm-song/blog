@@ -2,6 +2,7 @@ package hm.song.blog.core.post.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @Table(name = "TAG")
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = "post")
 public class Tag {
 
 	@EmbeddedId
@@ -30,20 +32,9 @@ public class Tag {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		if (!super.equals(o)) return false;
-
-		Tag tag = (Tag) o;
-
-		return id != null ? id.equals(tag.id) : tag.id == null;
-	}
-
-	@Override
-	public int hashCode() {
-		int result = super.hashCode();
-		result = 31 * result + (id != null ? id.hashCode() : 0);
-		return result;
+	public String toString() {
+		return "Tag{" +
+				"id=" + id +
+				'}';
 	}
 }

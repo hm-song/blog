@@ -1,7 +1,15 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-const Post = ({ title, body, postId, authenticated }) => {
+import TagComponent from './common/TagComponent';
+
+const Post = ({ post, authenticated }) => {
+    const tags = post.tags.map(tag => {
+        return (
+            <TagComponent tag={tag.tag} key={tag.tag}/>
+        )
+    });
+
     return (
         <div>
             <header className="masthead" style={{backgroundImage: 'url("/image/banner.jpg")'}}>
@@ -9,8 +17,14 @@ const Post = ({ title, body, postId, authenticated }) => {
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-10 col-md-10 mx-auto">
-                            <div className="site-heading">
-                                <h2>{title}</h2>
+                            <div className="post-heading">
+                                <h1>{post.title}</h1>
+                                <h5>
+                                    {tags}
+                                </h5>
+                                <span className="meta">
+                                    Posted on {post.regDate}
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -21,11 +35,11 @@ const Post = ({ title, body, postId, authenticated }) => {
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-10 col-md-10 mx-auto">
-                            {body}
+                            {post.contents}
                         </div>
                     </div>
                     <PostDetailHiddenMenu
-                        postId={postId}
+                        postId={post.id}
                         authenticated={authenticated}
                     />
                 </div>
