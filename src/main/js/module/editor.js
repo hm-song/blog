@@ -77,3 +77,12 @@ export const submit = (postId, params) => {
             });
     }
 }
+
+export const writePost = (params) => {
+    axios.post('/api/admin/posts/write', qs.stringify(params, { arrayFormat: 'repeat' }))
+        .then(response => {
+            window.location.href = '/posts/' + response.data;
+        }).catch(error => {
+            handleError(error);
+        });
+}

@@ -23,7 +23,7 @@ class Page extends Component {
         const nextPage = this.props.hasNextPage ? <NextPageButton path={nextPath}/> : null;
         const prevPage = this.props.hasPrevPage ? <PrevPageButton path={prevPath}/> : null;
         return (
-            <div className="clearfix">
+            <div className="clearfix" style={{ display: this.props.isFetching ? 'none' : 'block' }}>
                 {nextPage}
                 {prevPage}
             </div>
@@ -37,6 +37,7 @@ export default connect(
     (state) => ({
         page: state.posts.page,
         search: state.posts.search,
+        isFetching: state.posts.isFetching,
         hasNextPage: state.posts.hasNextPage,
         hasPrevPage: state.posts.hasPrevPage
     }),

@@ -9,6 +9,7 @@ import handleError from '../helper/errorHandler';
 export const RECEIVE_POSTS = 'posts/RECEIVE_POSTS';
 export const RECEIVE_POST_DETAIL = 'posts/RECEIVE_POST_DETAIL';
 export const UPDATE_PAGE = 'posts/UPDATE_PAGE';
+export const SEND_REQUEST = 'posts/SEND_REQUEST';
 
 const initialState = {
     page: 0,
@@ -17,27 +18,30 @@ const initialState = {
     hasNextPage: false,
     hasPrevPage: false,
 
-    posts: [{id: 1, title: "FJEPOJFPOQJPFOEJPFoj", regDate: "2017-12-05", modDate: null, display: true}],
+    posts: [],
 
     postDetail: {
         id: 0,
         title: '',
         contents: '',
         tags: []
-    }
+    },
+    isFetching: false
 };
 
 export default handleActions({
     [RECEIVE_POSTS]: (state, action) => {
         return {
             ...state,
-            posts: action.payload
+            posts: action.payload,
+            isFetching: false
         }
     },
     [RECEIVE_POST_DETAIL]: (state, action) => {
         return {
             ...state,
-            postDetail: action.payload
+            postDetail: action.payload,
+            isFetching: false
         }
     },
     [UPDATE_PAGE]: (state, action) => {
@@ -48,6 +52,12 @@ export default handleActions({
             hasNextPage: !action.payload.last,
             hasPrevPage: !action.payload.first
         }
+    },
+    [SEND_REQUEST]: (state) => {
+        return {
+            ...state,
+            isFetching: true,
+        }
     }
 }, initialState);
 
@@ -56,6 +66,7 @@ export const fetchPosts = (page = 0, search) => {
         let param = '?page=' + page;
         param = search ? param.concat('&search=' + search) : param;
 
+        dispatch(sendRequest());
         return axios.get('/api/public/posts' + param)
             .then(response => {
                 dispatch(
@@ -75,6 +86,8 @@ export const fetchPosts = (page = 0, search) => {
 // TODO: 포스트 보기 전환시 화면 이동 직후 이전 포스트 내용 노출 이슈 수정
 export const fetchPostDetail = (watchingPostId) => {
     return dispatch => {
+        dispatch(sendRequest());
+
         return axios.get('/api/public/posts/' + watchingPostId)
             .then(response => {
                 const post = {
@@ -92,3 +105,4 @@ export const fetchPostDetail = (watchingPostId) => {
 export const receivePosts = createAction(RECEIVE_POSTS);
 export const receivePostDetail = createAction(RECEIVE_POST_DETAIL);
 export const updatePage = createAction(UPDATE_PAGE);
+export const sendRequest = createAction(SEND_REQUEST);

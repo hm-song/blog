@@ -84,13 +84,19 @@ public class PostService {
 	}
 
     @Transactional
-    public int writePost(String title, String contents) {
+    public int writePost(String title, boolean display, String contents, String[] tags) {
         Post post = new Post();
         post.setTitle(title.trim());
         post.setContents(contents.trim());
         post.setRegDate(new Date());
         post.setModDate(new Date());
-        return postRepo.saveAndFlush(post).getId();
+        post.setDisplay(display);
+
+        // post먼저 저장후 생성되는 ID를 이후에 생성되는 테그에 사용한다.
+        postRepo.saveAndFlush(post);
+
+	    post.updateTag(tags);
+	    return post.getId();
     }
 
     @Transactional

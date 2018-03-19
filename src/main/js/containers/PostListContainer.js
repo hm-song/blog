@@ -13,12 +13,15 @@ class PostListContainer extends Component {
 
     render() {
         return(
-            <PostList posts={this.props.posts}/>
+            <PostList
+                posts={this.props.posts}
+                isFetching={this.props.isFetching}/>
         )
     }
 
     componentDidMount() {
-        this.props.getPosts(this.props.page, this.getSearchQuery());
+        const page = this.props.targetPage || 0;
+        this.props.getPosts(page, this.getSearchQuery());
     }
 
     // TODO: 페이지 이동시 두번 호출됨. ajax 통신 딜레이 동안 this.props.page가 갱신되지 않음.
@@ -40,7 +43,8 @@ export default connect(
     (state) => ({
         posts : state.posts.posts,
         page: state.posts.page,
-        search: state.posts.search
+        search: state.posts.search,
+        isFetching: state.posts.isFetching
     }),
     (dispatch) => ({
         getPosts: (page, search) => { dispatch(ac.fetchPosts(page, search)) }

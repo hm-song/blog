@@ -20,6 +20,7 @@ class TagInput extends Component {
                        handleAddition={this.props.handleAdd}
                        handleDrag={this.props.handleDrag}
                        placeholder={''}
+                       autofocus={false}
             />
         );
     }

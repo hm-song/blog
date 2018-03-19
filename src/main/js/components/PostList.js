@@ -4,12 +4,12 @@ import PostPreview from './PostPreview';
 
 import { PageContainer } from '../containers';
 
-const PostList = ({ posts }) => {
+const PostList = ({ posts, isFetching }) => {
     return (
         <div className="container">
             <div className="row">
                 <div className="col-lg-8 col-md-10 mx-auto">
-                    <div>
+                    <div style={{display: isFetching ? 'none' : 'block' }}>
                         {posts.map((item) => {
                             return <PostPreview id={item.id}
                                                 title={item.title}

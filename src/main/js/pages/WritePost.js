@@ -1,72 +1,82 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import Quill from 'quill';
-import axios from 'axios';
-import qs from 'qs';
+import NavLinkButton from '../components/button/NavLinkButton';
 
+import * as ac from '../module/editor';
 import { Header } from '../components';
-
+import { TagInputContainer } from '../containers';
 
 class WritePost extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            quillBody: '',
-            quillTitle: '',
-        };
-    }
-
-    componentDidMount() {
-        this.setState({
-            quillBody: new Quill('#content', {
-                placeholder: 'Compose an epic...',
-                theme: 'snow'  // or 'bubble'
-            }),
-            quillTitle: new Quill('#title', {
-                placeholder: 'Title...',
-                theme: 'bubble'  // or 'bubble'
-            })
-        });
-    }
-
-    handleSubmit = () => {
-        if (confirm('추가하시겠습니까?')) {
-            const body = this.state.quillBody;
-            const title = this.state.quillTitle;
-            const params = {
-                title: title.getText(),
-                contents : body.getText()
-            };
-
-            axios.post('/api/admin/posts/write', qs.stringify(params))
-                .then(response => {
-                    window.location.href = '/posts/' + response.data;
-                });
-        }
-    }
-
     render() {
-
-
-        return (
+        return(
             <div>
-                <Header title={'Write New Post'}/>
-                {/*<div id="editorContainer" style={containerStyle}>*/}
+                <Header title={'Write Post'}/>
                 <div className="container">
                     <div id="title" className="editor-title"></div>
                     <div id="content" className="editor-content"></div>
+
+                    <div className="tag-group">
+                        <h5>Tag</h5>
+                        <TagInputContainer tags={this.props.tags}/>
+                    </div>
+
                     <div className="editor-btn-group">
-                        <button type="button" className="btn btn-dark" onClick={this.handleSubmit}>등록</button>
-                        <button type="button" className="btn btn-secondary">취소</button>
+                        <button type="button" className="btn btn-dark" onClick={this.submit}>등록</button>
+                        <NavLinkButton className='btn-secondary' linkTo={'/'} text={'취소'}/>
+                        <label>
+                            <input type="checkbox" name="public" value="true" checked={this.props.display} onChange={this.props.handleChange}/>공개
+                        </label>
                     </div>
                 </div>
             </div>
-        );
+        )
+    }
+
+    componentDidMount() {
+        this.initEditor();
+    }
+
+    initEditor = () => {
+        const editorBody = new Quill('.editor-content', {
+            placeholder: 'Write post content here',
+            theme: 'snow'
+        });
+
+        const editorTitle = new Quill('.editor-title', {
+            placeholder: 'Write post title here',
+            theme: 'bubble'
+        });
+
+        this.props.initEditor(editorTitle, editorBody);
+    }
+
+    submit = () => {
+        const tags = this.props.tags.map(tag => tag.text);
+
+        if (confirm('저장하시겠습니까?')) {
+            const param = {
+                title: this.props.titleEditor.getText(),
+                contents: this.props.bodyEditor.getText(),
+                display: this.props.display,
+                tags: tags
+            };
+            this.props.submit(param);
+        }
     }
 }
 
-WritePost.propTypes = {};
-
-export default WritePost;
+export default connect(
+    (state) => ({
+        titleEditor: state.editor.quillTitle,
+        bodyEditor: state.editor.quillBody,
+        display: state.editor.display,
+        tags: state.tags.get('tags').toJSON()
+    }),
+    (dispatch) => ({
+        initEditor: (editorTitle, editorBody) => dispatch(ac.initEditor({editorTitle, editorBody})),
+        handleChange: (e) => dispatch(ac.handlePublicChange(e)),
+        submit: (params) => dispatch(ac.writePost(params))
+    })
+)(WritePost);

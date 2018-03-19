@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 import TagComponent from './common/TagComponent';
 
-const Post = ({ post, authenticated }) => {
+const Post = ({ post, authenticated, isFetching }) => {
     const tags = post.tags.map(tag => {
         return (
             <TagComponent tag={tag.tag} key={tag.tag}/>
@@ -17,7 +17,7 @@ const Post = ({ post, authenticated }) => {
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-10 col-md-10 mx-auto">
-                            <div className="post-heading">
+                            <div className="post-heading" style={{ display: isFetching ? 'none' : 'block' }}>
                                 <h1>{post.title}</h1>
                                 <h5>
                                     {tags}
@@ -34,7 +34,7 @@ const Post = ({ post, authenticated }) => {
             <article>
                 <div className="container">
                     <div className="row">
-                        <div className="col-lg-10 col-md-10 mx-auto">
+                        <div className="col-lg-10 col-md-10 mx-auto" style={{ display: isFetching ? 'none' : 'block' }}>
                             {post.contents}
                         </div>
                     </div>
