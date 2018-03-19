@@ -23,7 +23,6 @@ class PostListContainer extends Component {
 
     // TODO: 페이지 이동시 두번 호출됨. ajax 통신 딜레이 동안 this.props.page가 갱신되지 않음.
     componentWillReceiveProps(nextProps) {
-        console.log('nextPage - ', nextProps.targetPage, ', currentPage - ', this.props.page);
         if (nextProps.targetPage && nextProps.targetPage != this.props.page) {
             this.props.getPosts(nextProps.targetPage, this.getSearchQuery());
         }

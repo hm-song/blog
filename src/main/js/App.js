@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
+
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+
 import { Footer } from './components/index';
 import { PostList, PostDetail, WritePost, ModifyPost } from './pages';
 import { MenuContainer, LoginContainer } from './containers';

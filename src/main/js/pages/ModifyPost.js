@@ -66,7 +66,6 @@ class ModifyPost extends Component {
                 display: this.props.display,
                 tags: tags
             };
-            console.log(param);
             this.props.submit(this.props.postId, param);
         }
     }

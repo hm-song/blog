@@ -13,9 +13,7 @@ const PostPreview = ({id, title, regDate }) => (
             {/*</h3>*/}
         </NavLink>
         <p className="post-meta">
-            Posted by
-            <NavLink to="/"> Confident Developer </NavLink>
-            on {regDate}
+            Posted on {regDate}
         </p>
         <hr />
     </div>

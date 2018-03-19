@@ -4,6 +4,7 @@ import axios from 'axios';
 import qs from 'qs';
 
 import * as tagActions from './tags';
+import handleError from '../helper/errorHandler';
 
 const INIT_EDITOR = 'editor/INIT_EDITOR';
 const RECEIVE_POST_DETAIL = 'editor/RECEIVE_POST_DETAIL';
@@ -59,6 +60,8 @@ export const fetchPostAndModifiable = (postId) => {
                         dispatch(tagActions.handleAdd(item.tag));
                     });
                 }
+            }).catch(error => {
+                handleError(error);
             });
     }
 }
@@ -69,6 +72,8 @@ export const submit = (postId, params) => {
             .then(response => {
                 alert('저장됐습니다.');
                 window.location.href = '/posts/' + response.data;
+            }).catch(error => {
+                handleError(error);
             });
     }
 }

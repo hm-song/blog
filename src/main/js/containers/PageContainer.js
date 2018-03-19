@@ -16,10 +16,6 @@ class Page extends Component {
         let nextPath = '/page/' + nextPageNum;
         let prevPath = '/page/' + prevPageNum;
 
-        console.log('nextPath - ', nextPath);
-        console.log('prevPath - ', prevPath);
-        console.log('search - ', this.props.search);
-
         nextPath = this.props.search ? nextPath.concat('?search=' + this.props.search) : nextPath;
         prevPath = this.props.search ? prevPath.concat('?search=' + this.props.search) : prevPath;
 

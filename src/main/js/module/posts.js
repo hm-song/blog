@@ -4,6 +4,7 @@ import axios from 'axios';
 import Parser from 'html-react-parser';
 
 import { highlight } from '../helper/highlighter';
+import handleError from '../helper/errorHandler';
 
 export const RECEIVE_POSTS = 'posts/RECEIVE_POSTS';
 export const RECEIVE_POST_DETAIL = 'posts/RECEIVE_POST_DETAIL';
@@ -65,6 +66,8 @@ export const fetchPosts = (page = 0, search) => {
                         last: response.data.last
                     }));
                 dispatch(receivePosts(response.data.content));
+            }).catch(error => {
+                handleError(error);
             });
     }
 };
@@ -80,7 +83,9 @@ export const fetchPostDetail = (watchingPostId) => {
                 };
                 dispatch(receivePostDetail(post));
                 highlight();
-            })
+            }).catch(error => {
+                handleError(error);
+            });
     }
 };
 
