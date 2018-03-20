@@ -4,6 +4,7 @@ import LoginContainer from './LoginContainer';
 import MenuContainer from './MenuContainer';
 import PageContainer from './PageContainer';
 import TagInputContainer from './TagInputContainer';
+import PrivateMenuContainer from './PrivateMenuContainer';
 
 export {
     PostListContainer,
@@ -11,5 +12,6 @@ export {
     LoginContainer,
     MenuContainer,
     PageContainer,
-    TagInputContainer
+    TagInputContainer,
+    PrivateMenuContainer
 };

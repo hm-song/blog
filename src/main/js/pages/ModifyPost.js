@@ -54,7 +54,7 @@ class ModifyPost extends Component {
         });
 
         this.props.initEditor(editorTitle, editorBody);
-    }
+    };
 
     submit = () => {
         const tags = this.props.tags.map(tag => tag.text);
@@ -68,7 +68,7 @@ class ModifyPost extends Component {
             };
             this.props.submit(this.props.postId, param);
         }
-    }
+    };
 }
 
 export default connect(

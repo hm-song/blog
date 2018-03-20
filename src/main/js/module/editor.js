@@ -55,7 +55,7 @@ export const fetchPostAndModifiable = (postId) => {
                 dispatch(receivePostDetail(response.data));
 
                 if (response.data.tags) {
-                    dispatch(tagActions.restTag());
+                    dispatch(tagActions.resetTag());
                     response.data.tags.map((item) => {
                         dispatch(tagActions.handleAdd(item.tag));
                     });

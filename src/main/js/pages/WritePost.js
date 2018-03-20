@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import Quill from 'quill';
 import NavLinkButton from '../components/button/NavLinkButton';
 
-import * as ac from '../module/editor';
+import * as editorActions from '../module/editor';
+import * as tagActions from '../module/tags';
 import { Header } from '../components';
 import { TagInputContainer } from '../containers';
 
@@ -35,6 +36,7 @@ class WritePost extends Component {
     }
 
     componentDidMount() {
+        this.props.resetTags();
         this.initEditor();
     }
 
@@ -50,7 +52,7 @@ class WritePost extends Component {
         });
 
         this.props.initEditor(editorTitle, editorBody);
-    }
+    };
 
     submit = () => {
         const tags = this.props.tags.map(tag => tag.text);
@@ -64,7 +66,7 @@ class WritePost extends Component {
             };
             this.props.submit(param);
         }
-    }
+    };
 }
 
 export default connect(
@@ -75,8 +77,9 @@ export default connect(
         tags: state.tags.get('tags').toJSON()
     }),
     (dispatch) => ({
-        initEditor: (editorTitle, editorBody) => dispatch(ac.initEditor({editorTitle, editorBody})),
-        handleChange: (e) => dispatch(ac.handlePublicChange(e)),
-        submit: (params) => dispatch(ac.writePost(params))
+        initEditor: (editorTitle, editorBody) => dispatch(editorActions.initEditor({editorTitle, editorBody})),
+        resetTags: () => dispatch(tagActions.resetTag()),
+        handleChange: (e) => dispatch(editorActions.handlePublicChange(e)),
+        submit: (params) => dispatch(editorActions.writePost(params))
     })
 )(WritePost);

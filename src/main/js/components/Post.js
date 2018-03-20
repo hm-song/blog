@@ -52,7 +52,7 @@ const PostDetailHiddenMenu = ({ postId, authenticated }) => {
     if (authenticated) {
         return (
             <div style={{marginTop: 10, textAlign: 'right'}}>
-                <NavLink to={"/modify/" + postId}>
+                <NavLink to={"/admin/modify/" + postId}>
                     <button type="button" className="btn btn-dark">수정모드</button>
                 </NavLink>
             </div>
