@@ -26,9 +26,9 @@ const HiddenMenu = ({ search }) => {
                 <li className="nav-item">
                     <NavLink to="/admin/write" className="nav-link">Write</NavLink>
                 </li>
-                <li className="nav-item">
-                    <a className="nav-link" href="/logout">Log Out</a>
-                </li>
+                {/*<li className="nav-item">*/}
+                    {/*<a className="nav-link" href="/logout">Log Out</a>*/}
+                {/*</li>*/}
                 <li className="nav-item">
                     <input className="form-control form-control-sm" type="text" placeholder="Search" onKeyPress={search}/>
                 </li>

@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import PropTypes from 'prop-types';
 
-import * as LoginActionCreators from '../actions/LoginActionCreators';
+import * as loginActions from '../module/login';
 
 class Login extends Component {
     render() {
@@ -44,6 +42,11 @@ class Login extends Component {
         if (e.key == 'Enter') {
             this.props.login();
         }
+    };
+
+
+    componentDidMount() {
+        this.props.checkAuthentication();
     }
 }
 
@@ -55,8 +58,8 @@ export default connect(
         password: state.login.password
     }),
     (dispatch) => ({
-        handleChange : (e) => { dispatch(LoginActionCreators.handleChange(e)) },
-        login: () => { dispatch(LoginActionCreators.login()) }
-        // LoginActionCreators: bindActionCreators(LoginActionCreators, dispatch)
+        handleChange : (e) => { dispatch(loginActions.handleChange(e)) },
+        login: () => { dispatch(loginActions.login()) },
+        checkAuthentication: () => { dispatch(loginActions.checkAuthenticated())}
     })
 )(Login);
