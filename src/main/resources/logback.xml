@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration debug="true" sacn="true" scanPeriod="30 seconds">
+
+	<!-- Console Appender -->
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+		<encoder>
+			<pattern>%-42(%date [%thread]) %-5level %logger{35} -%msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 파일 Appender인 FILE 속성 선언 -->
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!-- 저장될 파일 경로 설정 -->
+		<file>logs/blog.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+
+			<!-- 저장될 파일명 패턴 -->
+			<fileNamePattern>logs/blog.log-%d{yyyy-MM-dd}</fileNamePattern>
+
+			<!-- 저장 기간 -->
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<!-- 로그 출력 패턴 설정 -->
+			<pattern>%-42(%date [%thread]) %-5level %logger{35} -%msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="FILE" />
+	</appender>
+
+	<!-- 최상위 로그 설정 -->
+	<root level="INFO">
+		<appender-ref ref="ASYNC" />
+	</root>
+</configuration>
