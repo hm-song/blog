@@ -16,17 +16,14 @@
 |-----|-----|
 | 포스트 목록 | GET /api/public/posts |
 | 포스트 보기 | GET /api/public/posts/{id} |
-| 답글 달기 | /api/public/posts/{id}/comments |
 
 #### Admin API
 | 기능 | API |
 |-----|-----|
 | 포스트 목록 | GET /api/admin/posts |
 | 포스트 보기 | GET /api/admin/posts/{id} |
-| 포스트 등록 | POST /api/admin/posts |
-| 포스트 수정 화면 | GET /api/admin/posts/{id}/update |
-| 포스트 수정 | POST /api/admin/posts/{id}/update |
-| 포스트 삭제 | POST /api/admin/posts/{id}/delete |
+| 포스트 등록 | POST /api/admin/posts/write |
+| 포스트 수정 | POST /api/admin/posts/{id}/modify |
 
 #### TODO
 
@@ -50,10 +47,9 @@
 
 - 권한 관리
     - (Done) 게시글 등록 및 수정 페이지 접근 금지
+    
+- 통계
 
 98. 에디터 교체 검토(Quill의 기능 거의 사용 안함)
 
 (Done) 99. 로그인 팝업 엔터 기능
-
-
-

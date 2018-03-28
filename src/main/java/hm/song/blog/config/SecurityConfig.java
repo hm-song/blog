@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 				.antMatchers("/api/admin/**").authenticated()
 				.antMatchers("/admin/**").authenticated()
-				.anyRequest().authenticated()
+
 				.and()
 			.formLogin()
 				.loginProcessingUrl("/handleLogin")
