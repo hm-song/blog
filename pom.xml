@@ -95,6 +95,14 @@
 			<artifactId>guava</artifactId>
 			<version>23.0</version>
 		</dependency>
+
+		<!-- RSS Feeder -->
+		<dependency>
+			<groupId>com.rometools</groupId>
+			<artifactId>rome</artifactId>
+			<version>1.9.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
