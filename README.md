@@ -6,50 +6,46 @@
 - Spring Security
 - React
 - Bootstrap
+- MySQL
 
 #### Front-end Dependencies
+- [axios](https://www.npmjs.com/package/axios)
+- [redux](https://www.npmjs.com/package/redux)
+- [react-router-rom](https://www.npmjs.com/package/react-router-dom)
+- [redux-actions](https://www.npmjs.com/package/redux-actions)
+- [redux-thunk](https://www.npmjs.com/package/redux-thunk)
 - [react-tag-input](https://www.npmjs.com/package/react-tag-input)
 - [immutable](https://www.npmjs.com/package/immutable)
+- [qs](https://www.npmjs.com/package/qs)
+- [quill](https://quilljs.com/)
+- [prism](http://prismjs.com/)
 
 #### User API
 | 기능 | API |
 |-----|-----|
 | 포스트 목록 | GET /api/public/posts |
 | 포스트 보기 | GET /api/public/posts/{id} |
+| 로그인 세션 확인 | GET /api/public/checkAuthentication |
+| RSS | GET /rss |
 
 #### Admin API
 | 기능 | API |
 |-----|-----|
-| 포스트 목록 | GET /api/admin/posts |
-| 포스트 보기 | GET /api/admin/posts/{id} |
 | 포스트 등록 | POST /api/admin/posts/write |
 | 포스트 수정 | POST /api/admin/posts/{id}/modify |
 
-#### TODO
+#### How to run in local
 
-- (Done) 게시글 수정(생성?) 이후 authenticated 상태 변경 이슈
+1. application.properties의 *spring.jpa.hibernate.ddl-auto*를 true 설정.
+2. root classpath에 *classified.properties* 파일 생성. 이후 아래 프로퍼티들 추가
 
-- 댓글 (도메인 및 호스팅 연동 후)
+    - db.address=
+    - db.port=
+    - db.username=
+    - db.password=
+    - admin.username=
+    - admin.password=
 
-- (Done) 코드 하이라이트
-
-- (Done) 태그
-
-- (Done) 검색
-
-- 이전, 다음 포스트
-
-- (Done) 에러 처리
-
-- (Done) 포스트 등록 페이지삭제하고 포스트 수정 페이지 재사용
-
-- Logout
-
-- 권한 관리
-    - (Done) 게시글 등록 및 수정 페이지 접근 금지
-    
-- 통계
-
-98. 에디터 교체 검토(Quill의 기능 거의 사용 안함)
-
-(Done) 99. 로그인 팝업 엔터 기능
+3. MySQL에 *blog* 스키마 생성
+4. `$ mvn clean package`를 이용해 webpack build 수행
+5. 구동

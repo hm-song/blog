@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
 @RestController
@@ -23,31 +24,26 @@ public class PublicPostController {
 
 	@GetMapping(value = "/posts", params={"page"})
 	@ResponseBody
-	public Page<PostDto> getPosts(Principal principal, int page) {
-		logger.info("getPost() - page={}, principal={}", page, principal != null);
+	public Page<PostDto> getPosts(Principal principal, int page, HttpServletRequest request) {
+		logger.info("getPost() - page={}, principal={}, ip={}", page, principal != null, request.getRemoteAddr());
 		boolean onlyPublic = principal == null;
 		return service.getPosts(onlyPublic, page);
 	}
 
 	@GetMapping(value = "/posts", params={"page", "search"})
 	@ResponseBody
-	public Page<PostDto> searchPost(Principal principal, String search, int page) {
-		logger.info("searchPost() - search={}, page={}, principal={}", search, page, principal != null);
+	public Page<PostDto> searchPost(Principal principal, String search, int page, HttpServletRequest request) {
+		logger.info("searchPost() - search={}, page={}, principal={}, ip={}",
+				search, page, principal != null, request.getRemoteAddr());
 		boolean onlyPublic = principal == null;
 		return service.searchPost(onlyPublic, search, page);
 	}
 
 	@GetMapping(value = "/posts/{id}")
-	public Post showPostDetail(Principal principal, @PathVariable int id) {
+	public Post showPostDetail(Principal principal, @PathVariable int id, HttpServletRequest request) {
+		logger.info("getPostDetail() - id={}, ip={}", id, request.getRemoteAddr());
 		Post post = service.getPost(id, principal != null);
 		post.getContents();
 		return post;
-	}
-
-	@GetMapping(value = "/comments/write")
-	@ResponseBody
-	public String writeComment(Principal principal) {
-		logger.info("{}", principal);
-		return "Authentication is done";
 	}
 }

@@ -96,6 +96,7 @@ export const fetchPostDetail = (watchingPostId) => {
                 };
                 dispatch(receivePostDetail(post));
                 highlight();
+                document.title = response.data.title;
             }).catch(error => {
                 handleError(error);
             });
